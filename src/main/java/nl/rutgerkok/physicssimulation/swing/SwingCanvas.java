@@ -16,7 +16,7 @@ final class SwingCanvas implements Canvas {
 
     @Override
     public void drawLine(Vector2 start, Vector2 end) {
-        graphics.drawLine((int) start.x, (int) start.y, (int) end.x, (int) end.y);
+        graphics.drawLine((int) start.getX(), (int) start.getY(), (int) end.getX(), (int) end.getY());
     }
 
 }

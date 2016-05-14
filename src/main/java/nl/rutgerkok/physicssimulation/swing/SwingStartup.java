@@ -1,5 +1,6 @@
 package nl.rutgerkok.physicssimulation.swing;
 
+import static nl.rutgerkok.physicssimulation.Circle.circle;
 import static nl.rutgerkok.physicssimulation.AxisAlignedBoundingBox.aabb;
 import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 
@@ -22,6 +23,7 @@ public final class SwingStartup {
         List<Drawable> drawables = Arrays.asList(
                 vec2(10, 10),
                 vec2(50, 20),
+                circle(vec2(10, 10), 10),
                 aabb(vec2(20, 30), vec2(40, 80)));
 
         window.setContentPane(new DrawPanel(new MultiDrawable(drawables)));

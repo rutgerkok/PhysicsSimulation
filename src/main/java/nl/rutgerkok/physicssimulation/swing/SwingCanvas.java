@@ -19,4 +19,11 @@ final class SwingCanvas implements Canvas {
         graphics.drawLine((int) start.getX(), (int) start.getY(), (int) end.getX(), (int) end.getY());
     }
 
+    @Override
+    public void drawArc(Vector2 center, Vector2 size, double startAngle, double endAngle) {
+        graphics.drawArc((int) center.getX(), (int) center.getY(),
+                (int) size.getX(), (int) size.getY(),
+                (int) Math.toDegrees(startAngle), (int) Math.toDegrees(endAngle));
+    }
+
 }

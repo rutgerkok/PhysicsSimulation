@@ -5,24 +5,24 @@ import java.util.Objects;
 
 import javax.swing.JPanel;
 
-import nl.rutgerkok.physicssimulation.paint.Painter;
+import nl.rutgerkok.physicssimulation.paint.Drawable;
 
 /**
- * A variant of {@link JPanel} that allows a {@link Painter} to draw.
+ * A variant of {@link JPanel} that allows a {@link Drawable} to draw.
  *
  */
 final class DrawPanel extends JPanel {
 
     private static final long serialVersionUID = -5973534506179687970L;
 
-    private final Painter painter;
+    private final Drawable painter;
 
-    public DrawPanel(Painter painter) {
+    public DrawPanel(Drawable painter) {
         this.painter = Objects.requireNonNull(painter);
     }
 
     @Override
     public void paintComponent(Graphics graphics) {
-        painter.paint(new SwingCanvas(graphics));
+        painter.toDrawing(new SwingCanvas(graphics));
     }
 }

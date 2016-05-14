@@ -2,7 +2,7 @@ package nl.rutgerkok.physicssimulation.swing;
 
 import javax.swing.JFrame;
 
-import nl.rutgerkok.physicssimulation.paint.TestPainter;
+import nl.rutgerkok.physicssimulation.Vector2;
 
 public final class SwingStartup {
 
@@ -12,6 +12,6 @@ public final class SwingStartup {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("PhysicsSimulation");
         window.setVisible(true);
-        window.setContentPane(new DrawPanel(new TestPainter()));
+        window.setContentPane(new DrawPanel(Vector2.of(10, 10)));
     }
 }

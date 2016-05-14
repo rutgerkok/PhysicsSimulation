@@ -1,10 +1,13 @@
 package nl.rutgerkok.physicssimulation;
 
+import nl.rutgerkok.physicssimulation.paint.Canvas;
+import nl.rutgerkok.physicssimulation.paint.Drawable;
+
 /**
  * A 2-dimensional immutable vector.
  *
  */
-public final class Vector2 {
+public final class Vector2 implements Drawable {
 
     /**
      * Creates a vector with the given x and y.
@@ -95,10 +98,27 @@ public final class Vector2 {
     public Vector2 plus(Vector2 that) {
         return Vector2.of(this.x + that.x, this.y + that.y);
     }
+    
+    /**
+     * Adds another vector to this vector.
+     * @param x X position of the other vector.
+     * @param y Y position of the other vector.
+     * @return The other vector.
+     */
+    public Vector2 plus(double x, double y) {
+        return Vector2.of(this.x + x, this.y + y);
+    }
 
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public void toDrawing(Canvas canvas) {
+        // Draw a cross
+        canvas.drawLine(this.plus(-2, -2), this.plus(2, 2));
+        canvas.drawLine(this.plus(2, -2), this.plus(-2, 2));
     }
 
 }

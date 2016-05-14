@@ -1,25 +1,17 @@
-package nl.rutgerkok.physicssimulation;
+package nl.rutgerkok.physicssimulation.shape;
 
 import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 
 import java.util.Objects;
 
+import nl.rutgerkok.physicssimulation.Vector2;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
-import nl.rutgerkok.physicssimulation.paint.Drawable;
 
 /**
  * Represents a circle.
  *
  */
-public final class Circle implements Drawable {
-    private final double radius;
-    private final Vector2 center;
-
-    private Circle(Vector2 center, double radius) {
-        this.center = Objects.requireNonNull(center);
-        this.radius = radius;
-    }
-
+public final class Circle implements Shape {
     /**
      * Creates a new circle with the given center and radius.
      * 
@@ -39,15 +31,13 @@ public final class Circle implements Drawable {
         return new Circle(center, radius);
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((center == null) ? 0 : center.hashCode());
-        long temp;
-        temp = Double.doubleToLongBits(radius);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        return result;
+    private final double radius;
+
+    private final Vector2 center;
+
+    private Circle(Vector2 center, double radius) {
+        this.center = Objects.requireNonNull(center);
+        this.radius = radius;
     }
 
     @Override
@@ -64,6 +54,27 @@ public final class Circle implements Drawable {
         if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
             return false;
         return true;
+    }
+
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    public Vector2 getCenter() {
+        return center;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((center == null) ? 0 : center.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(radius);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 
     /**
@@ -87,5 +98,10 @@ public final class Circle implements Drawable {
     @Override
     public String toString() {
         return "circle(" + center + ", " + radius + ")";
+    }
+
+    @Override
+    public Shape moved(Vector2 amount) {
+        return circle(center.plus(amount), radius);
     }
 }

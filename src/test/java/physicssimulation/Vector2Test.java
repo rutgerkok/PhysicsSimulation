@@ -35,4 +35,24 @@ public class Vector2Test {
         assertEquals(2, vec2(0, 0).getDistanceTo(vec2(2, 0)), 0.0001);
         assertEquals(5, vec2(0, 0).getDistanceTo(vec2(4, 3)), 0.0001);
     }
+
+    @Test
+    public void testMultiplication() {
+        assertEquals(vec2(2, 4), vec2(1, 2).multiply(2));
+    }
+
+    @Test
+    public void testDivision() {
+        assertEquals(vec2(5, 3), vec2(15, 9).divide(3));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDivisionByZero() {
+        vec2(3, 4).divide(0);
+    }
+
+    @Test
+    public void testNormalize() {
+        assertEquals(vec2(-1, 0), vec2(-18, 0).normalized());
+    }
 }

@@ -1,13 +1,13 @@
 package physicssimulation;
 
-import static nl.rutgerkok.physicssimulation.Circle.circle;
 import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import nl.rutgerkok.physicssimulation.Circle;
+import nl.rutgerkok.physicssimulation.shape.Circle;
 
 import org.junit.Test;
 

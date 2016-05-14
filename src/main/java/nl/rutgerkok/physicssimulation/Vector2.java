@@ -59,6 +59,32 @@ public final class Vector2 implements Drawable {
     }
 
     /**
+     * Calculates the distance to the other vector.
+     *
+     * @param that
+     *            The other vector.
+     * @return The distance.
+     */
+    public double getDistanceTo(Vector2 that) {
+        return Math.sqrt(getSquaredDistanceTo(that));
+    }
+
+    /**
+     * Calculates the squared distance to the other vector. Calculating the
+     * squared distance is faster than calculating the distance, as we don't
+     * have to calculate a square root.
+     *
+     * @param that
+     *            The other vector.
+     * @return The distance.
+     */
+    public double getSquaredDistanceTo(Vector2 that) {
+        double xDistance = this.x - that.x;
+        double yDistance = this.y - that.y;
+        return xDistance * xDistance + yDistance * yDistance;
+    }
+
+    /**
      * Gets the x position of this vector.
      * 
      * @return The x position.
@@ -89,6 +115,41 @@ public final class Vector2 implements Drawable {
     }
 
     /**
+     * Subtracts another vector from this vector, and returns the result.
+     *
+     * @param that
+     *            The other vector.
+     * @return The result.
+     */
+    public Vector2 minus(Vector2 that) {
+        return vec2(this.x - that.x, this.y - that.y);
+    }
+
+    /**
+     * Multiplies this vector with a scalar.
+     * 
+     * @param scalar
+     *            The scalar.
+     * @return The multiplied vector.
+     */
+    public Vector2 multiply(double scalar) {
+        return vec2(this.x * scalar, this.y * scalar);
+    }
+
+    /**
+     * Divides this vector with a scalar.
+     *
+     * @param scalar
+     *            The scalar.
+     * @return The divided vector.
+     * @throws IllegalArgumentException
+     *             On division by 0.
+     */
+    public Vector2 divide(double scalar) {
+        return multiply(1 / scalar);
+    }
+
+    /**
      * Adds another vector to this vector.
      * 
      * @param that
@@ -99,30 +160,11 @@ public final class Vector2 implements Drawable {
         return vec2(this.x + that.x, this.y + that.y);
     }
 
-    /**
-     * Calculates the distance to the other vector.
-     *
-     * @param that
-     *            The other vector.
-     * @return The distance.
-     */
-    public double getDistanceTo(Vector2 that) {
-        return Math.sqrt(getSquaredDistanceTo(that));
-    }
-
-    /**
-     * Calculates the squared distance to the other vector. Calculating the
-     * squared distance is faster than calculating the distance, as we don't
-     * have to calculate a square root.
-     *
-     * @param that
-     *            The other vector.
-     * @return The distance.
-     */
-    public double getSquaredDistanceTo(Vector2 that) {
-        double xDistance = this.x - that.x;
-        double yDistance = this.y - that.y;
-        return xDistance * xDistance + yDistance * yDistance;
+    @Override
+    public void toDrawing(Canvas canvas) {
+        // Draw a cross
+        canvas.drawLine(this.plus(vec2(-2, -2)), this.plus(vec2(2, 2)));
+        canvas.drawLine(this.plus(vec2(2, -2)), this.plus(vec2(-2, 2)));
     }
 
     @Override
@@ -130,11 +172,34 @@ public final class Vector2 implements Drawable {
         return "vec2(" + x + ", " + y + ")";
     }
 
-    @Override
-    public void toDrawing(Canvas canvas) {
-        // Draw a cross
-        canvas.drawLine(this.plus(vec2(-2, -2)), this.plus(vec2(2, 2)));
-        canvas.drawLine(this.plus(vec2(2, -2)), this.plus(vec2(-2, 2)));
+    /**
+     * Gets a normalized version of this vector, i.e. a vector with the same
+     * direction, but a different magnitude.
+     * 
+     * @return The normalized version.
+     */
+    public Vector2 normalized() {
+        return this.divide(this.getLength());
+    }
+
+    /**
+     * Gets the length of this vector.
+     * 
+     * @return The length.
+     */
+    public double getLength() {
+        return Math.sqrt(this.dotProduct(this));
+    }
+
+    /**
+     * Gets the dot product between this vector and the other.
+     * 
+     * @param that
+     *            The other vector.
+     * @return The dot product.
+     */
+    public double dotProduct(Vector2 that) {
+        return this.x * that.x + this.y * that.y;
     }
 
 }

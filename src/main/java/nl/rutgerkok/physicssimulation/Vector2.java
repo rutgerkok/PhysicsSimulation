@@ -101,7 +101,7 @@ public final class Vector2 implements Drawable {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        return "vec2(" + x + ", " + y + ")";
     }
 
     @Override

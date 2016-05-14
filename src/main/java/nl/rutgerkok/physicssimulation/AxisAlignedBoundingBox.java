@@ -73,7 +73,7 @@ public final class AxisAlignedBoundingBox implements Drawable {
 
     @Override
     public String toString() {
-        return "AABB from " + this.min + " to " + this.max;
+        return "aabb(" + this.min + ", " + this.max + ")";
     }
 
     @Override

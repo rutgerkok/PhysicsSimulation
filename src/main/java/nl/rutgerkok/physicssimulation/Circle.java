@@ -76,7 +76,7 @@ public final class Circle implements Drawable {
     public boolean overlapsWith(Circle that) {
         double radiusSum = this.radius + that.radius;
 
-        return radiusSum > this.center.getDistanceTo(that.center);
+        return radiusSum * radiusSum > this.center.getSquaredDistanceTo(that.center);
     }
 
     @Override

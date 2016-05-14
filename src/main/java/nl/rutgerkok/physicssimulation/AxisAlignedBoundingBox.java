@@ -33,6 +33,23 @@ public final class AxisAlignedBoundingBox implements Drawable {
         this.max = Objects.requireNonNull(max);
     }
 
+    /**
+     * Returns whether this AABB overlaps with the given AABB.
+     * @param that The other AABB.
+     * @return True if they overlap, false otherwise.
+     */
+    public boolean overlapsWith(AxisAlignedBoundingBox that) {
+        // Return false when separated along each axis
+        if(this.max.getX() <= that.min.getX() || this.min.getX() >= that.max.getX())
+            return false;
+        if(this.max.getY() <= that.min.getY() || this.min.getY() >= that.max.getY())
+            return false;
+
+        // No separating axis found, therefore there is at least one overlapping axis
+        return true;
+
+    }
+
     @Override
     public int hashCode() {
         return min.hashCode() ^ max.hashCode();

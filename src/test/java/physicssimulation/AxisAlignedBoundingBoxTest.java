@@ -44,4 +44,9 @@ public class AxisAlignedBoundingBoxTest {
         AxisAlignedBoundingBox box = aabb(vec2(0, 0), vec2(3, 3));
         assertTrue(box.overlapsWith(box));
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullBox() {
+        aabb(vec2(0, 2), null);
+    }
 }

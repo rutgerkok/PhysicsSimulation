@@ -19,4 +19,14 @@ public class Vector2Test {
 
         assertEquals(sixEight, oneTwo.plus(fiveSix));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInfiniteX() {
+        vec2(Double.POSITIVE_INFINITY, 2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNaNY() {
+        vec2(1, Double.NaN);
+    }
 }

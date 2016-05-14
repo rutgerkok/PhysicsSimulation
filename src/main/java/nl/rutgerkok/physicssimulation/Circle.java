@@ -1,11 +1,11 @@
 package nl.rutgerkok.physicssimulation;
 
+import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
-
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 
 /**
  * Represents a circle.
@@ -22,10 +22,14 @@ public final class Circle implements Drawable {
 
     /**
      * Creates a new circle with the given center and radius.
-     * @param center Center of the circle.
-     * @param radius Radius of the circle.
+     * 
+     * @param center
+     *            Center of the circle.
+     * @param radius
+     *            Radius of the circle.
      * @return The circle.
-     * @throws IllegalArgumentException If the radius is not a finite number.
+     * @throws IllegalArgumentException
+     *             If the radius is not a finite number.
      */
     public static Circle circle(Vector2 center, double radius) {
         if (!Double.isFinite(radius)) {
@@ -60,6 +64,19 @@ public final class Circle implements Drawable {
         if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
             return false;
         return true;
+    }
+
+    /**
+     * Checks if this circle overlaps with another circle.
+     *
+     * @param that
+     *            The other circle.
+     * @return True if the circles overlap, false otherwise.
+     */
+    public boolean overlapsWith(Circle that) {
+        double radiusSum = this.radius + that.radius;
+
+        return radiusSum > this.center.getDistanceTo(that.center);
     }
 
     @Override

@@ -1,12 +1,11 @@
 package physicssimulation;
 
-import static org.junit.Assert.*;
+import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static org.junit.Assert.assertEquals;
 
 import nl.rutgerkok.physicssimulation.Vector2;
 
 import org.junit.Test;
-
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 
 public class Vector2Test {
 
@@ -28,5 +27,12 @@ public class Vector2Test {
     @Test(expected = IllegalArgumentException.class)
     public void testNaNY() {
         vec2(1, Double.NaN);
+    }
+
+    @Test
+    public void testDistances() {
+        assertEquals(2, vec2(0, 0).getDistanceTo(vec2(0, 2)), 0.0001);
+        assertEquals(2, vec2(0, 0).getDistanceTo(vec2(2, 0)), 0.0001);
+        assertEquals(5, vec2(0, 0).getDistanceTo(vec2(4, 3)), 0.0001);
     }
 }

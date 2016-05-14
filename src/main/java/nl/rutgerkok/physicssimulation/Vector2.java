@@ -99,6 +99,32 @@ public final class Vector2 implements Drawable {
         return vec2(this.x + that.x, this.y + that.y);
     }
 
+    /**
+     * Calculates the distance to the other vector.
+     *
+     * @param that
+     *            The other vector.
+     * @return The distance.
+     */
+    public double getDistanceTo(Vector2 that) {
+        return Math.sqrt(getSquaredDistanceTo(that));
+    }
+
+    /**
+     * Calculates the squared distance to the other vector. Calculating the
+     * squared distance is faster than calculating the distance, as we don't
+     * have to calculate a square root.
+     *
+     * @param that
+     *            The other vector.
+     * @return The distance.
+     */
+    public double getSquaredDistanceTo(Vector2 that) {
+        double xDistance = this.x - that.x;
+        double yDistance = this.y - that.y;
+        return xDistance * xDistance + yDistance * yDistance;
+    }
+
     @Override
     public String toString() {
         return "vec2(" + x + ", " + y + ")";

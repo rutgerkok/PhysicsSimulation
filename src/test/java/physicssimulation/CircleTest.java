@@ -1,12 +1,15 @@
 package physicssimulation;
 
-import org.junit.Test;
-
 import static nl.rutgerkok.physicssimulation.Circle.circle;
 import static nl.rutgerkok.physicssimulation.Vector2.vec2;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import nl.rutgerkok.physicssimulation.Circle;
+
+import org.junit.Test;
 
 public class CircleTest {
 
@@ -33,5 +36,17 @@ public class CircleTest {
 
         assertNotEquals(circle1, otherCenter);
         assertNotEquals(circle2, otherRadius);
+    }
+
+    @Test
+    public void testOverlap() {
+        Circle left = circle(vec2(-10, 0), 10);
+        Circle right = circle(vec2(10, 0), 10);
+
+        Circle center = circle(vec2(0, 0), 10);
+
+        assertFalse(left.overlapsWith(right));
+        assertTrue(center.overlapsWith(left));
+        assertTrue(right.overlapsWith(center));
     }
 }

@@ -21,7 +21,7 @@ public final class AxisAlignedBoundingBox implements Drawable {
      * @param max The position of the bottom-right corner.
      * @return The box.
      */
-    public static AxisAlignedBoundingBox of(Vector2 min, Vector2 max) {
+    public static AxisAlignedBoundingBox aabb(Vector2 min, Vector2 max) {
         if (min.getX() >= max.getX() || min.getY() >= max.getY()) {
             throw new IllegalArgumentException("Invalid dimensions: " + min + " to " + max);
         }

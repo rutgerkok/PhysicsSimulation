@@ -2,6 +2,8 @@ package nl.rutgerkok.physicssimulation.paint;
 
 import nl.rutgerkok.physicssimulation.Vector2;
 
+import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+
 /**
  * A canvas that can be drawn on.
  *
@@ -21,9 +23,9 @@ public interface Canvas {
      * @param max Bottom right position.
      */
     default void drawSquare(Vector2 min, Vector2 max) {
-        drawLine(min, Vector2.of(max.getX(), min.getY())); // top
-        drawLine(Vector2.of(min.getX(), max.getY()), max); // bottom
-        drawLine(min, Vector2.of(min.getX(), max.getY())); // left
-        drawLine(Vector2.of(max.getX(), min.getY()), max); // right
+        drawLine(min, vec2(max.getX(), min.getY())); // top
+        drawLine(vec2(min.getX(), max.getY()), max); // bottom
+        drawLine(min, vec2(min.getX(), max.getY())); // left
+        drawLine(vec2(max.getX(), min.getY()), max); // right
     }
 }

@@ -20,7 +20,7 @@ public final class Vector2 implements Drawable {
      * @throws IllegalArgumentException
      *             If the x or y are infinite or NaN.
      */
-    public static Vector2 of(double x, double y) {
+    public static Vector2 vec2(double x, double y) {
         if (!Double.isFinite(x) || !Double.isFinite(y)) {
             throw new IllegalArgumentException("Invalid coords: (" + x + ", " + y + ")");
         }
@@ -96,17 +96,7 @@ public final class Vector2 implements Drawable {
      * @return The result vector.
      */
     public Vector2 plus(Vector2 that) {
-        return Vector2.of(this.x + that.x, this.y + that.y);
-    }
-    
-    /**
-     * Adds another vector to this vector.
-     * @param x X position of the other vector.
-     * @param y Y position of the other vector.
-     * @return The other vector.
-     */
-    public Vector2 plus(double x, double y) {
-        return Vector2.of(this.x + x, this.y + y);
+        return vec2(this.x + that.x, this.y + that.y);
     }
 
     @Override
@@ -117,8 +107,8 @@ public final class Vector2 implements Drawable {
     @Override
     public void toDrawing(Canvas canvas) {
         // Draw a cross
-        canvas.drawLine(this.plus(-2, -2), this.plus(2, 2));
-        canvas.drawLine(this.plus(2, -2), this.plus(-2, 2));
+        canvas.drawLine(this.plus(vec2(-2, -2)), this.plus(vec2(2, 2)));
+        canvas.drawLine(this.plus(vec2(2, -2)), this.plus(vec2(-2, 2)));
     }
 
 }

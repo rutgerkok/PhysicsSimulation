@@ -82,7 +82,7 @@ public class PhysicsWorld implements Drawable {
         // Apply impulse
         Vector2 impulse = collisionNormal.multiply(impulseLength);
         a.setVelocity(a.getVelocity().minus(impulse.multiply(1 / a.mass)));
-        b.setVelocity(a.getVelocity().plus(impulse.multiply(1 / b.mass)));
+        b.setVelocity(b.getVelocity().plus(impulse.multiply(1 / b.mass)));
     }
 
     private void resolveCollisions() {

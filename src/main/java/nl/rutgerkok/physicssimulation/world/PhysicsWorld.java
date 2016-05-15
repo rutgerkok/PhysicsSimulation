@@ -53,9 +53,9 @@ public class PhysicsWorld implements Drawable {
     }
 
     private void resolveCollision(Collision collision) {
-        System.out.println("Resolving for " + collision);
         PhysicalObject a = collision.getOneObject();
         PhysicalObject b = collision.getOtherObject();
+        System.out.println("Resolving for " + (1 / a.invertedMass) + " vs " + (1 / b.invertedMass));
 
         // Calculate relative velocity
         Vector velocityDifference = b.getVelocity().minus(a.getVelocity());
@@ -72,13 +72,13 @@ public class PhysicsWorld implements Drawable {
         double bouncyness = Math.min(a.restitution, b.restitution);
 
         // Calculate impulse scalar
-        double impulseLength = -(1 + bouncyness) * velAlongNormal / (a.invmass + b.invmass);
+        double impulseLength = -(1 + bouncyness) * velAlongNormal / (a.invertedMass + b.invertedMass);
 
         // Apply impulse
         Vector impulse = collision.getNormal().multiply(impulseLength);
 
-        a.setVelocity(a.getVelocity().minus(impulse.multiply(a.invmass)));
-        b.setVelocity(b.getVelocity().plus(impulse.multiply(b.invmass)));
+        a.setVelocity(a.getVelocity().minus(impulse.multiply(a.invertedMass)));
+        b.setVelocity(b.getVelocity().plus(impulse.multiply(b.invertedMass)));
     }
 
     private void resolveCollisions() {

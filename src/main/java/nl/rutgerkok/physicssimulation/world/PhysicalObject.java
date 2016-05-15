@@ -5,6 +5,7 @@ import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.Vector;
+import nl.rutgerkok.physicssimulation.shape.Material;
 import nl.rutgerkok.physicssimulation.shape.Shape;
 
 /**
@@ -25,22 +26,39 @@ public final class PhysicalObject {
      *            The shape of the object.
      * @param velocity
      *            The velocity of the object.
+     * @param material
+     *            The material of the object.
      * @return The object.
      */
-    public static PhysicalObject obj(Shape shape, Vector velocity) {
-        return new PhysicalObject(shape, velocity);
+    public static PhysicalObject obj(Shape shape, Vector velocity, Material material) {
+        return new PhysicalObject(shape, velocity, material);
     }
 
     private Shape shape;
     private Vector velocity;
-    public double restitution = 1;
+    private final Material material;
 
-    public double mass = 2;
-    public double invmass = 0.5;
+    /**
+     * The restitution, or "bouncyness" of the object.
+     */
+    public final double restitution;
+    /**
+     * {@code 1 / mass}. 0 for objects with infinite mass.
+     */
+    public final double invertedMass;
 
-    private PhysicalObject(Shape shape, Vector velocity) {
+    private PhysicalObject(Shape shape, Vector velocity, Material material) {
         this.shape = Objects.requireNonNull(shape);
         this.velocity = Objects.requireNonNull(velocity);
+        this.material = Objects.requireNonNull(material);
+
+        this.restitution = material.restitution;
+        if (material.density == 0) {
+            this.invertedMass = 0;
+        } else {
+            double mass = material.density * shape.getVolume();
+            this.invertedMass = 1 / mass;
+        }
     }
 
     /**
@@ -52,7 +70,7 @@ public final class PhysicalObject {
     public void advance(double deltaTime) {
         // Symplectic Euler - assumes constant force over deltaTime
         Vector force = vec2(0, 0);
-        Vector acceleration = force.divide(mass);
+        Vector acceleration = force.multiply(invertedMass);
         velocity = velocity.plus(acceleration.multiply(deltaTime));
         shape = shape.moved(velocity.multiply(deltaTime));
     }
@@ -76,6 +94,6 @@ public final class PhysicalObject {
 
     @Override
     public String toString() {
-        return "obj(" + shape + ", " + velocity + ")";
+        return "obj(" + shape + ", " + velocity + ", " + material + ")";
     }
 }

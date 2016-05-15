@@ -8,6 +8,7 @@ import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import nl.rutgerkok.physicssimulation.shape.Material;
 import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 public final class SwingStartup {
@@ -19,10 +20,10 @@ public final class SwingStartup {
         window.setTitle("PhysicsSimulation");
 
         PhysicsWorld world = new PhysicsWorld();
-        world.addObject(obj(circle(vec2(100, 100), 30), vec2(10, 0)));
-        world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 1)));
-        world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 450)), vec2(0, -15)));
-        world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -20)));
+        world.addObject(obj(circle(vec2(100, 100), 30), vec2(60, 0), Material.METAL));
+        world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 1), Material.SUPERBALL));
+        world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 405)), vec2(0, -15), Material.WOOD));
+        world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -20), Material.ROCK));
         window.setContentPane(new DrawPanel(world));
 
         new Timer(100, event -> {

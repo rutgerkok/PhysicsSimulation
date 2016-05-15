@@ -13,6 +13,8 @@ import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 public final class SwingStartup {
 
+    public static final int FPS = 10;
+
     public static void main(String... args) {
         JFrame window = new JFrame();
         window.setSize(800, 600);
@@ -26,8 +28,8 @@ public final class SwingStartup {
         world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -20), Material.ROCK));
         window.setContentPane(new DrawPanel(world));
 
-        new Timer(100, event -> {
-            world.advance(0.1);
+        new Timer(1000 / FPS, event -> {
+            world.advance(1 / (double) FPS);
             window.repaint();
         }).start();
 

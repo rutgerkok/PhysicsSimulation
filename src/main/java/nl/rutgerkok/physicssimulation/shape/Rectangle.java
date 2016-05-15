@@ -55,7 +55,7 @@ public final class Rectangle implements Shape {
     }
 
     @Override
-    public double getArea() {
+    public double getVolume() {
         double xSize = this.max.getX() - this.min.getX();
         double ySize = this.max.getY() - this.min.getY();
         return xSize * ySize;

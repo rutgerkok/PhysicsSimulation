@@ -12,7 +12,7 @@ public class RectangleTest {
     @Test
     public void testArea() {
         Rectangle rectangle = rectangle(vec2(0, 0), vec2(4, 2));
-        assertEquals(8, rectangle.getArea(), 0.00001);
+        assertEquals(8, rectangle.getVolume(), 0.00001);
     }
 
     @Test

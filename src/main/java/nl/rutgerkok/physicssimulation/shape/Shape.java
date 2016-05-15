@@ -10,18 +10,19 @@ import nl.rutgerkok.physicssimulation.paint.Drawable;
 public interface Shape extends Drawable {
 
     /**
-     * Gets the area of this shape.
-     *
-     * @return The area.
-     */
-    double getArea();
-
-    /**
      * Gets the center of this shape.
      * 
      * @return The center.
      */
     Vector getCenter();
+
+    /**
+     * Gets the volume of this shape. For 2-dimensional shapes, this is equal to
+     * the area of the shape.
+     *
+     * @return The volume.
+     */
+    double getVolume();
 
     /**
      * Gets a shape that is equal to this shape, except that the center was

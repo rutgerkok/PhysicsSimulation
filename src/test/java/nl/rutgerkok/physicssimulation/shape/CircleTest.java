@@ -14,7 +14,7 @@ public class CircleTest {
     @Test
     public void testArea() {
         Circle unitCircle = circle(vec2(0, 0), 1);
-        assertEquals(Math.PI, unitCircle.getArea(), 0.00001);
+        assertEquals(Math.PI, unitCircle.getVolume(), 0.00001);
     }
 
     @Test

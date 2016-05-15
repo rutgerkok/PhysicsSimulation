@@ -59,7 +59,7 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public double getArea() {
+    public double getVolume() {
         return Math.PI * radius * radius;
     }
 

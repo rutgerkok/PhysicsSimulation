@@ -13,7 +13,7 @@ import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 public final class SwingStartup {
 
-    public static final int FPS = 10;
+    public static final int FPS = 60;
 
     public static void main(String... args) {
         JFrame window = new JFrame();
@@ -22,10 +22,10 @@ public final class SwingStartup {
         window.setTitle("PhysicsSimulation");
 
         PhysicsWorld world = new PhysicsWorld();
-        world.addObject(obj(circle(vec2(100, 100), 30), vec2(60, 0), Material.METAL));
+        world.addObject(obj(circle(vec2(100, 100), 30), vec2(40, 0), Material.METAL));
         world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 1), Material.SUPERBALL));
-        world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 405)), vec2(0, -15), Material.WOOD));
-        world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -20), Material.ROCK));
+        world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 405)), vec2(0, 0), Material.WOOD));
+        world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -40), Material.ROCK));
         window.setContentPane(new DrawPanel(world));
 
         new Timer(1000 / FPS, event -> {

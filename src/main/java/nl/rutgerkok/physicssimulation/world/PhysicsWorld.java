@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.collision.Collision;
 import nl.rutgerkok.physicssimulation.collision.CollisionChecker;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
+import nl.rutgerkok.physicssimulation.vector.Vector;
 
 /**
  * Represents a physics world.

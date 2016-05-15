@@ -3,8 +3,8 @@ package nl.rutgerkok.physicssimulation.swing;
 import java.awt.Graphics;
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
+import nl.rutgerkok.physicssimulation.vector.Vector2;
 
 final class SwingCanvas implements Canvas {
 
@@ -15,15 +15,15 @@ final class SwingCanvas implements Canvas {
     }
 
     @Override
-    public void drawLine(Vector start, Vector end) {
-        graphics.drawLine((int) start.getX(), (int) start.getY(), (int) end.getX(), (int) end.getY());
-    }
-
-    @Override
-    public void drawArc(Vector center, Vector size, double startAngle, double endAngle) {
+    public void drawArc(Vector2 center, Vector2 size, double startAngle, double endAngle) {
         graphics.drawArc((int) center.getX(), (int) center.getY(),
                 (int) size.getX(), (int) size.getY(),
                 (int) Math.toDegrees(startAngle), (int) Math.toDegrees(endAngle));
+    }
+
+    @Override
+    public void drawLine(Vector2 start, Vector2 end) {
+        graphics.drawLine((int) start.getX(), (int) start.getY(), (int) end.getX(), (int) end.getY());
     }
 
 }

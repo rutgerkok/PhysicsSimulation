@@ -1,9 +1,9 @@
 package nl.rutgerkok.physicssimulation.collision;
 
 import static java.util.Arrays.asList;
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
 import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,8 +11,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Set;
 
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.shape.Material;
+import nl.rutgerkok.physicssimulation.vector.Vector;
+import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class CollisionTest {
 
     @Test
     public void testCircleAndRectangleOverlap() {
-        Vector zero = vec2(0, 0);
+        Vector2 zero = vec2(0, 0);
 
         PhysicalObject rectangle = obj(rectangle(vec2(1, 0), vec2(2, 2)), zero, Material.ROCK);
         PhysicalObject circle = obj(circle(zero, 1.5), zero, Material.ROCK);
@@ -36,7 +37,7 @@ public class CollisionTest {
 
     @Test
     public void testCircleInsideOfRectangle() {
-        Vector zero = vec2(0, 0);
+        Vector2 zero = vec2(0, 0);
 
         List<PhysicalObject> objects = asList(
                 obj(rectangle(vec2(-1, -1), vec2(1, 1)), zero, Material.ROCK),
@@ -85,7 +86,7 @@ public class CollisionTest {
 
     @Test
     public void testTwoCirclesAtSamePosition() {
-        Vector zero = vec2(0, 0);
+        Vector2 zero = vec2(0, 0);
 
         List<PhysicalObject> objects = asList(
                 obj(circle(zero, 2), zero, Material.ROCK),

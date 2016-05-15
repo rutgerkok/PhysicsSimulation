@@ -1,10 +1,14 @@
 package nl.rutgerkok.physicssimulation;
 
-import static nl.rutgerkok.physicssimulation.Vector.vec;
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
-import static nl.rutgerkok.physicssimulation.Vector.vec3;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import nl.rutgerkok.physicssimulation.vector.Vector;
+import nl.rutgerkok.physicssimulation.vector.Vector2;
 
 import org.junit.Test;
 
@@ -26,7 +30,8 @@ public class Vector2Test {
 
     @Test
     public void testDimension() {
-        vec2(4, 5).checkDimension(2);
+        assertTrue(vec2(4, 5) instanceof Vector2);
+        assertTrue(vec(new double[] { 4, 5 }) instanceof Vector2);
     }
 
     @Test
@@ -62,7 +67,7 @@ public class Vector2Test {
 
     @Test
     public void testFields() {
-        Vector sevenEleven = vec2(7, 11);
+        Vector2 sevenEleven = vec2(7, 11);
         assertEquals(7, sevenEleven.getX(), 0.000001);
         assertEquals(11, sevenEleven.getY(), 0.000001);
     }
@@ -72,14 +77,9 @@ public class Vector2Test {
         vec2(Double.POSITIVE_INFINITY, 2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testInvalidDimension() {
-        vec2(4, 5).checkDimension(1);
-    }
-
     @Test(expected = UnsupportedOperationException.class)
     public void testInvalidField() {
-        vec2(7, 11).getZ();
+        vec2(7, 11).getCoord(2);
     }
 
     @Test

@@ -1,16 +1,17 @@
 package nl.rutgerkok.physicssimulation.collision;
 
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import nl.rutgerkok.physicssimulation.MoreMath;
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.shape.Circle;
 import nl.rutgerkok.physicssimulation.shape.Rectangle;
 import nl.rutgerkok.physicssimulation.shape.Shape;
+import nl.rutgerkok.physicssimulation.vector.Vector;
+import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -87,10 +88,10 @@ public final class CollisionChecker {
         Circle circle = (Circle) objB.getShape();
 
         // Vector from A to B
-        Vector distanceBetweenCenters = circle.getCenter().minus(rectangle.getCenter());
+        Vector2 distanceBetweenCenters = circle.getCenter().minus(rectangle.getCenter());
 
         // Closest point on A to center of B
-        Vector clampedDistanceBetweenCenters = distanceBetweenCenters;
+        Vector2 clampedDistanceBetweenCenters = distanceBetweenCenters;
 
         // Calculate half extents along each axis
         double halfRectangleXSize = rectangle.getXSize() / 2;
@@ -156,7 +157,7 @@ public final class CollisionChecker {
         Rectangle b = (Rectangle) objB.getShape();
 
         // Vector from A to B
-        Vector n = b.getCenter().minus(a.getCenter());
+        Vector2 n = b.getCenter().minus(a.getCenter());
 
         // Calculate half extents along x axis for each object
         double aExtent = a.getXSize() / 2;

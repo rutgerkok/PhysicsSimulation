@@ -1,7 +1,7 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
+import nl.rutgerkok.physicssimulation.vector.Vector;
 
 /**
  * Represents some kind of shape.

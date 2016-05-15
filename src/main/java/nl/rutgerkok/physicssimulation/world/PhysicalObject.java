@@ -1,12 +1,12 @@
 package nl.rutgerkok.physicssimulation.world;
 
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.shape.Material;
 import nl.rutgerkok.physicssimulation.shape.Shape;
+import nl.rutgerkok.physicssimulation.vector.Vector;
 
 /**
  * An object in a physical world.

@@ -1,8 +1,8 @@
 package nl.rutgerkok.physicssimulation.swing;
 
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
 import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
 
 import javax.swing.JFrame;
@@ -23,7 +23,7 @@ public final class SwingStartup {
 
         PhysicsWorld world = new PhysicsWorld();
         world.addObject(obj(circle(vec2(100, 100), 30), vec2(40, 0), Material.METAL));
-        world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 1), Material.SUPERBALL));
+        world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 5), Material.SUPERBALL));
         world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 405)), vec2(0, 0), Material.WOOD));
         world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -40), Material.ROCK));
         window.setContentPane(new DrawPanel(world));

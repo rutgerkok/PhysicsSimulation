@@ -1,7 +1,7 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

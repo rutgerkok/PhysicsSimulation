@@ -6,8 +6,21 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PhysicsSimulation</name>
 	<description>A try at the creation of a physics engine</description>
+	
+	<repositories>
+		<repository>
+			<url>https://repo.eclipse.org/</url>
+			<id>eclipse-repo</id>
+		</repository>
+	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>org.eclipse.jdt.annotation</artifactId>
+			<version>2.0.0.v20140415-1436</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

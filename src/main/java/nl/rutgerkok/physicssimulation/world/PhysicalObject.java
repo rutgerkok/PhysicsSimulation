@@ -5,8 +5,6 @@ import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.Vector2;
-import nl.rutgerkok.physicssimulation.shape.Circle;
-import nl.rutgerkok.physicssimulation.shape.Rectangle;
 import nl.rutgerkok.physicssimulation.shape.Shape;
 
 /**
@@ -20,41 +18,28 @@ import nl.rutgerkok.physicssimulation.shape.Shape;
  */
 public final class PhysicalObject {
 
-    private Shape shape;
-    private Vector2 velocity = vec2(0, 0);
-    public double restitution = 1;
-    public double mass = 2;
-
     /**
      * Creates a new object with the given shape.
      *
      * @param shape
      *            The shape of the object.
+     * @param velocity
+     *            The velocity of the object.
      * @return The object.
      */
-    public static PhysicalObject obj(Shape shape) {
-        return new PhysicalObject(shape);
+    public static PhysicalObject obj(Shape shape, Vector2 velocity) {
+        return new PhysicalObject(shape, velocity);
     }
 
-    private PhysicalObject(Shape shape) {
+    private Shape shape;
+    private Vector2 velocity;
+    public double restitution = 1;
+
+    public double mass = 2;
+
+    private PhysicalObject(Shape shape, Vector2 velocity) {
         this.shape = Objects.requireNonNull(shape);
-    }
-
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
-    }
-
-    /**
-     * Gets the shape of this object.
-     *
-     * @return The shape.
-     */
-    public Shape getShape() {
-        return shape;
+        this.velocity = Objects.requireNonNull(velocity);
     }
 
     /**
@@ -71,19 +56,25 @@ public final class PhysicalObject {
         shape = shape.moved(velocity.multiply(deltaTime));
     }
 
-    public boolean collidesWith(PhysicalObject that) {
-        Shape thisShape = this.shape;
-        Shape thatShape = that.shape;
+    /**
+     * Gets the shape of this object.
+     *
+     * @return The shape.
+     */
+    public Shape getShape() {
+        return shape;
+    }
 
-        // Every combination of shapes requires special handling
-        // For now, circles don't collide with rectangles
-        if (thisShape instanceof Circle && thatShape instanceof Circle) {
-            return ((Circle) thisShape).overlapsWith((Circle) thatShape);
-        }
-        if (thisShape instanceof Rectangle && thatShape instanceof Rectangle) {
-            return ((Rectangle) thisShape).overlapsWith((Rectangle) thatShape);
-        }
+    public Vector2 getVelocity() {
+        return velocity;
+    }
 
-        return false;
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    @Override
+    public String toString() {
+        return "obj(" + shape + ", " + velocity + ")";
     }
 }

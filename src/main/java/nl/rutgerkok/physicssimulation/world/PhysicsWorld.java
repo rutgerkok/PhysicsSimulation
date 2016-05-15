@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.collision.Collision;
+import nl.rutgerkok.physicssimulation.collision.CollisionChecker;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
 
@@ -14,7 +16,8 @@ import nl.rutgerkok.physicssimulation.paint.Drawable;
  */
 public class PhysicsWorld implements Drawable {
 
-    private List<PhysicalObject> objects = new ArrayList<>();
+    private final List<PhysicalObject> objects = new ArrayList<>();
+    private final CollisionChecker collisionChecker = new CollisionChecker();
 
     /**
      * Adds a new object to this world.
@@ -24,17 +27,6 @@ public class PhysicsWorld implements Drawable {
      */
     public void addObject(PhysicalObject object) {
         objects.add(Objects.requireNonNull(object));
-    }
-
-    /**
-     * Removes an object from the world. Does nothing if the object was already
-     * removed or never added.
-     * 
-     * @param object
-     *            The object.
-     */
-    public void removeObject(PhysicalObject object) {
-        objects.remove(Objects.requireNonNull(object));
     }
 
     /**
@@ -49,18 +41,26 @@ public class PhysicsWorld implements Drawable {
         resolveCollisions();
     }
 
-    private void resolveCollisions() {
-        for (PhysicalObject oneObject : objects) {
-            for (PhysicalObject otherObject : objects) {
-                if (oneObject == otherObject || !oneObject.collidesWith(otherObject)) {
-                    continue;
-                }
-                resolveCollision(oneObject, otherObject);
-            }
-        }
+    private Vector2 getCollisionNormal(PhysicalObject a, PhysicalObject b) {
+        return b.getShape().getCenter().minus(a.getShape().getCenter()).normalized();
     }
 
-    private void resolveCollision(PhysicalObject a, PhysicalObject b) {
+    /**
+     * Removes an object from the world. Does nothing if the object was already
+     * removed or never added.
+     * 
+     * @param object
+     *            The object.
+     */
+    public void removeObject(PhysicalObject object) {
+        objects.remove(Objects.requireNonNull(object));
+    }
+
+    private void resolveCollision(Collision collision) {
+        System.out.println("Resolving for " + collision);
+        PhysicalObject a = collision.getOneObject();
+        PhysicalObject b = collision.getOtherObject();
+
         Vector2 collisionNormal = this.getCollisionNormal(a, b);
 
         // Calculate relative velocity
@@ -85,8 +85,8 @@ public class PhysicsWorld implements Drawable {
         b.setVelocity(a.getVelocity().plus(impulse.multiply(1 / b.mass)));
     }
 
-    private Vector2 getCollisionNormal(PhysicalObject a, PhysicalObject b) {
-        return a.getShape().getCenter().minus(b.getShape().getCenter()).normalized();
+    private void resolveCollisions() {
+        this.collisionChecker.getCollisions(objects).forEach(this::resolveCollision);
     }
 
     @Override

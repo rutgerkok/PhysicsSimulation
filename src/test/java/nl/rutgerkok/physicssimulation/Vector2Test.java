@@ -1,4 +1,4 @@
-package physicssimulation;
+package nl.rutgerkok.physicssimulation;
 
 import static nl.rutgerkok.physicssimulation.Vector2.vec2;
 import static org.junit.Assert.assertEquals;

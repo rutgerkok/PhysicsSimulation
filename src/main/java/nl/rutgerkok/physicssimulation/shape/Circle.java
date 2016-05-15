@@ -24,7 +24,7 @@ public final class Circle implements Shape {
      *             If the radius is not a finite number.
      */
     public static Circle circle(Vector2 center, double radius) {
-        if (!Double.isFinite(radius)) {
+        if (!Double.isFinite(radius) || radius <= 0) {
             throw new IllegalArgumentException("Invalid radius: " + radius);
         }
 
@@ -79,7 +79,7 @@ public final class Circle implements Shape {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((center == null) ? 0 : center.hashCode());
+        result = prime * result + center.hashCode();
         long temp;
         temp = Double.doubleToLongBits(radius);
         result = prime * result + (int) (temp ^ (temp >>> 32));

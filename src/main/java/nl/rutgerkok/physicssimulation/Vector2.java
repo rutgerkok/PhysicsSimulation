@@ -42,6 +42,30 @@ public final class Vector2 implements Drawable {
         this.y = y;
     }
 
+    /**
+     * Divides this vector with a scalar.
+     *
+     * @param scalar
+     *            The scalar.
+     * @return The divided vector.
+     * @throws IllegalArgumentException
+     *             On division by 0.
+     */
+    public Vector2 divide(double scalar) {
+        return multiply(1 / scalar);
+    }
+
+    /**
+     * Gets the dot product between this vector and the other.
+     * 
+     * @param that
+     *            The other vector.
+     * @return The dot product.
+     */
+    public double dotProduct(Vector2 that) {
+        return this.x * that.x + this.y * that.y;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -70,6 +94,16 @@ public final class Vector2 implements Drawable {
     }
 
     /**
+     * Gets the length of this vector.
+     * 
+     * @return The length.
+     * @see #getSquaredLength() Faster method
+     */
+    public double getLength() {
+        return Math.sqrt(this.dotProduct(this));
+    }
+
+    /**
      * Calculates the squared distance to the other vector. Calculating the
      * squared distance is faster than calculating the distance, as we don't
      * have to calculate a square root.
@@ -82,6 +116,16 @@ public final class Vector2 implements Drawable {
         double xDistance = this.x - that.x;
         double yDistance = this.y - that.y;
         return xDistance * xDistance + yDistance * yDistance;
+    }
+
+    /**
+     * Gets the squared length of this vector. Unlike {@link #getLength()}, this
+     * method doesn't need to calculate a costly square root.
+     * 
+     * @return The squared length.
+     */
+    public double getSquaredLength() {
+        return this.dotProduct(this);
     }
 
     /**
@@ -137,16 +181,13 @@ public final class Vector2 implements Drawable {
     }
 
     /**
-     * Divides this vector with a scalar.
-     *
-     * @param scalar
-     *            The scalar.
-     * @return The divided vector.
-     * @throws IllegalArgumentException
-     *             On division by 0.
+     * Gets a normalized version of this vector, i.e. a vector with the same
+     * direction, but a different magnitude.
+     * 
+     * @return The normalized version.
      */
-    public Vector2 divide(double scalar) {
-        return multiply(1 / scalar);
+    public Vector2 normalized() {
+        return this.divide(this.getLength());
     }
 
     /**
@@ -170,36 +211,6 @@ public final class Vector2 implements Drawable {
     @Override
     public String toString() {
         return "vec2(" + x + ", " + y + ")";
-    }
-
-    /**
-     * Gets a normalized version of this vector, i.e. a vector with the same
-     * direction, but a different magnitude.
-     * 
-     * @return The normalized version.
-     */
-    public Vector2 normalized() {
-        return this.divide(this.getLength());
-    }
-
-    /**
-     * Gets the length of this vector.
-     * 
-     * @return The length.
-     */
-    public double getLength() {
-        return Math.sqrt(this.dotProduct(this));
-    }
-
-    /**
-     * Gets the dot product between this vector and the other.
-     * 
-     * @param that
-     *            The other vector.
-     * @return The dot product.
-     */
-    public double dotProduct(Vector2 that) {
-        return this.x * that.x + this.y * that.y;
     }
 
 }

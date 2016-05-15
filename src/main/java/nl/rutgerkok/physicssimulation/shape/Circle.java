@@ -7,6 +7,8 @@ import java.util.Objects;
 import nl.rutgerkok.physicssimulation.Vector2;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Represents a circle.
  *
@@ -41,7 +43,7 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

@@ -5,15 +5,14 @@ import java.util.Objects;
 import nl.rutgerkok.physicssimulation.Vector2;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * An axis-aligned bounding box. This is a rectangular box used for collision
  * checking.
  *
  */
 public final class Rectangle implements Shape {
-
-    private final Vector2 min;
-    private final Vector2 max;
 
     /**
      * Creates a new axis-aligned bounding box.
@@ -31,43 +30,21 @@ public final class Rectangle implements Shape {
         return new Rectangle(min, max);
     }
 
+    private final Vector2 min;
+    private final Vector2 max;
+
     private Rectangle(Vector2 min, Vector2 max) {
         this.min = Objects.requireNonNull(min);
         this.max = Objects.requireNonNull(max);
     }
 
-    /**
-     * Returns whether this AABB overlaps with the given AABB.
-     * 
-     * @param that
-     *            The other AABB.
-     * @return True if they overlap, false otherwise.
-     */
-    public boolean overlapsWith(Rectangle that) {
-        // Return false when separated along each axis
-        if (this.max.getX() <= that.min.getX() || this.min.getX() >= that.max.getX())
-            return false;
-        if (this.max.getY() <= that.min.getY() || this.min.getY() >= that.max.getY())
-            return false;
-
-        // No separating axis found, therefore there is at least one overlapping
-        // axis
-        return true;
-
-    }
-
     @Override
-    public int hashCode() {
-        return min.hashCode() ^ max.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Rectangle))
             return false;
         Rectangle other = (Rectangle) obj;
         if (!max.equals(other.max))
@@ -75,16 +52,6 @@ public final class Rectangle implements Shape {
         if (!min.equals(other.min))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "aabb(" + this.min + ", " + this.max + ")";
-    }
-
-    @Override
-    public void toDrawing(Canvas canvas) {
-        canvas.drawSquare(this.min, this.max);
     }
 
     @Override
@@ -100,8 +67,61 @@ public final class Rectangle implements Shape {
         return min.plus(max).divide(2);
     }
 
+    /**
+     * Gets the position with the highest x and y that is still contained within
+     * the rectangle.
+     * 
+     * @return The maximum position.
+     */
+    public Vector2 getMax() {
+        return max;
+    }
+
+    /**
+     * Gets the position with the lowest x and y that is still contained within
+     * the rectangle.
+     * 
+     * @return The minimum position.
+     */
+    public Vector2 getMin() {
+        return min;
+    }
+
+    /**
+     * Gets the size of this rectangle in the x direction.
+     * 
+     * @return The size.
+     */
+    public double getXSize() {
+        return this.max.getX() - this.min.getX();
+    }
+
+    /**
+     * Gets the size of this rectangle in the y direction.
+     * 
+     * @return The size.
+     */
+    public double getYSize() {
+        return this.max.getY() - this.min.getY();
+    }
+
+    @Override
+    public int hashCode() {
+        return min.hashCode() ^ max.hashCode();
+    }
+
     @Override
     public Shape moved(Vector2 amount) {
         return rectangle(min.plus(amount), max.plus(amount));
+    }
+
+    @Override
+    public void toDrawing(Canvas canvas) {
+        canvas.drawSquare(this.min, this.max);
+    }
+
+    @Override
+    public String toString() {
+        return "rectangle(" + this.min + ", " + this.max + ")";
     }
 }

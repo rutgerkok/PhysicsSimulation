@@ -37,8 +37,4 @@ public class RectangleTest {
         assertNotEquals(box1, slightlyDifferentBox);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testNullBox() {
-        rectangle(vec2(0, 2), null);
-    }
 }

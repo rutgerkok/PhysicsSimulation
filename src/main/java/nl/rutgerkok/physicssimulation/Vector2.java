@@ -3,6 +3,8 @@ package nl.rutgerkok.physicssimulation;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * A 2-dimensional immutable vector.
  *
@@ -67,7 +69,7 @@ public final class Vector2 implements Drawable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

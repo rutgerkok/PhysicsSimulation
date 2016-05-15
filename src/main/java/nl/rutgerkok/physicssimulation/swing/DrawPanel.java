@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 
 import nl.rutgerkok.physicssimulation.paint.Drawable;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * A variant of {@link JPanel} that allows a {@link Drawable} to draw.
  *
@@ -22,7 +24,8 @@ final class DrawPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics graphics) {
+    public void paintComponent(@Nullable Graphics graphics) {
+        Objects.requireNonNull(graphics);
         painter.toDrawing(new SwingCanvas(graphics));
     }
 }

@@ -5,6 +5,8 @@ import java.util.Objects;
 import nl.rutgerkok.physicssimulation.Vector2;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Represents a collision. Two collisions are equal if they involve the same
  * objects.
@@ -28,7 +30,7 @@ public final class Collision {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

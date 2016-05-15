@@ -60,11 +60,6 @@ public class CircleTest {
         circle(vec2(10, 10), -4);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testNull() {
-        circle(null, 10);
-    }
-
     @Test
     public void testProperties() {
         Circle circle = circle(vec2(20, 30), 27);

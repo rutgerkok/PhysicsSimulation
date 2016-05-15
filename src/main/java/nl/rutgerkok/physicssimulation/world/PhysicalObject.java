@@ -1,10 +1,10 @@
 package nl.rutgerkok.physicssimulation.world;
 
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.shape.Shape;
 
 /**
@@ -27,17 +27,17 @@ public final class PhysicalObject {
      *            The velocity of the object.
      * @return The object.
      */
-    public static PhysicalObject obj(Shape shape, Vector2 velocity) {
+    public static PhysicalObject obj(Shape shape, Vector velocity) {
         return new PhysicalObject(shape, velocity);
     }
 
     private Shape shape;
-    private Vector2 velocity;
+    private Vector velocity;
     public double restitution = 1;
 
     public double mass = 2;
 
-    private PhysicalObject(Shape shape, Vector2 velocity) {
+    private PhysicalObject(Shape shape, Vector velocity) {
         this.shape = Objects.requireNonNull(shape);
         this.velocity = Objects.requireNonNull(velocity);
     }
@@ -50,8 +50,8 @@ public final class PhysicalObject {
      */
     public void advance(double deltaTime) {
         // Symplectic Euler - assumes constant force over deltaTime
-        Vector2 force = vec2(0, 0);
-        Vector2 acceleration = force.divide(mass);
+        Vector force = vec2(0, 0);
+        Vector acceleration = force.divide(mass);
         velocity = velocity.plus(acceleration.multiply(deltaTime));
         shape = shape.moved(velocity.multiply(deltaTime));
     }
@@ -65,11 +65,11 @@ public final class PhysicalObject {
         return shape;
     }
 
-    public Vector2 getVelocity() {
+    public Vector getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Vector2 velocity) {
+    public void setVelocity(Vector velocity) {
         this.velocity = velocity;
     }
 

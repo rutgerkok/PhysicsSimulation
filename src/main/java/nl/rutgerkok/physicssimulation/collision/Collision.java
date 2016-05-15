@@ -2,7 +2,7 @@ package nl.rutgerkok.physicssimulation.collision;
 
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -16,9 +16,9 @@ public final class Collision {
     private final PhysicalObject one;
     private final PhysicalObject other;
     private final double penetration;
-    private final Vector2 normal;
+    private final Vector normal;
 
-    Collision(PhysicalObject a, PhysicalObject b, double penetration, Vector2 normal) {
+    Collision(PhysicalObject a, PhysicalObject b, double penetration, Vector normal) {
         if (!Double.isFinite(penetration) || penetration <= 0) {
             throw new IllegalArgumentException("Invalid penetration for collision: " + penetration);
         }
@@ -53,7 +53,7 @@ public final class Collision {
      * 
      * @return The collision normal.
      */
-    public Vector2 getNormal() {
+    public Vector getNormal() {
         return normal;
     }
 

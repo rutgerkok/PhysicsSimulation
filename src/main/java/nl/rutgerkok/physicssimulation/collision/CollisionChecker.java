@@ -1,13 +1,13 @@
 package nl.rutgerkok.physicssimulation.collision;
 
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import nl.rutgerkok.physicssimulation.MoreMath;
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.shape.Circle;
 import nl.rutgerkok.physicssimulation.shape.Rectangle;
 import nl.rutgerkok.physicssimulation.shape.Shape;
@@ -52,7 +52,7 @@ public final class CollisionChecker {
         Circle a = (Circle) objA.getShape();
         Circle b = (Circle) objB.getShape();
 
-        Vector2 centerDifference = b.getCenter().minus(a.getCenter());
+        Vector centerDifference = b.getCenter().minus(a.getCenter());
 
         double radiusSum = a.getRadius() + b.getRadius();
         double squaredRadiusSum = radiusSum * radiusSum;
@@ -72,7 +72,7 @@ public final class CollisionChecker {
             double penetration = radiusSum - distanceBetweenCenters;
 
             // Calculate unit vector from b to a
-            Vector2 normal = centerDifference.divide(distanceBetweenCenters);
+            Vector normal = centerDifference.divide(distanceBetweenCenters);
             return new Collision(objA, objB, penetration, normal);
         } else {
             // Circles are on same position
@@ -87,10 +87,10 @@ public final class CollisionChecker {
         Circle circle = (Circle) objB.getShape();
 
         // Vector from A to B
-        Vector2 distanceBetweenCenters = circle.getCenter().minus(rectangle.getCenter());
+        Vector distanceBetweenCenters = circle.getCenter().minus(rectangle.getCenter());
 
         // Closest point on A to center of B
-        Vector2 clampedDistanceBetweenCenters = distanceBetweenCenters;
+        Vector clampedDistanceBetweenCenters = distanceBetweenCenters;
 
         // Calculate half extents along each axis
         double halfRectangleXSize = rectangle.getXSize() / 2;
@@ -131,7 +131,7 @@ public final class CollisionChecker {
             }
         }
 
-        Vector2 normal = distanceBetweenCenters.minus(clampedDistanceBetweenCenters);
+        Vector normal = distanceBetweenCenters.minus(clampedDistanceBetweenCenters);
         double squaredNormalLength = normal.getSquaredLength();
         double circleRadius = circle.getRadius();
 
@@ -157,7 +157,7 @@ public final class CollisionChecker {
         Rectangle b = (Rectangle) objB.getShape();
 
         // Vector from A to B
-        Vector2 n = b.getCenter().minus(a.getCenter());
+        Vector n = b.getCenter().minus(a.getCenter());
 
         // Check overlap on x-axis
         double halfXSizeA = a.getXSize() / 2;
@@ -176,7 +176,7 @@ public final class CollisionChecker {
         }
 
         // Find out which axis is axis of least penetration
-        Vector2 normal;
+        Vector normal;
         double penetration;
         if (xOverlap < yOverlap) {
             // Point towards B knowing that n points from A to B

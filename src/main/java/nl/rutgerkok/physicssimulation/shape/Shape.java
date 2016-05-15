@@ -1,6 +1,6 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
 
 /**
@@ -21,7 +21,7 @@ public interface Shape extends Drawable {
      * 
      * @return The center.
      */
-    Vector2 getCenter();
+    Vector getCenter();
 
     /**
      * Gets a shape that is equal to this shape, except that the center was
@@ -31,5 +31,5 @@ public interface Shape extends Drawable {
      *            The amount to move.
      * @return The moved object.
      */
-    Shape moved(Vector2 amount);
+    Shape moved(Vector amount);
 }

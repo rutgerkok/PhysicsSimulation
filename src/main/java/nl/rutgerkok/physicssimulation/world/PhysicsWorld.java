@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.collision.Collision;
 import nl.rutgerkok.physicssimulation.collision.CollisionChecker;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
@@ -41,7 +41,7 @@ public class PhysicsWorld implements Drawable {
         resolveCollisions();
     }
 
-    private Vector2 getCollisionNormal(PhysicalObject a, PhysicalObject b) {
+    private Vector getCollisionNormal(PhysicalObject a, PhysicalObject b) {
         return b.getShape().getCenter().minus(a.getShape().getCenter()).normalized();
     }
 
@@ -61,10 +61,10 @@ public class PhysicsWorld implements Drawable {
         PhysicalObject a = collision.getOneObject();
         PhysicalObject b = collision.getOtherObject();
 
-        Vector2 collisionNormal = this.getCollisionNormal(a, b);
+        Vector collisionNormal = this.getCollisionNormal(a, b);
 
         // Calculate relative velocity
-        Vector2 velocityDifference = b.getVelocity().minus(a.getVelocity());
+        Vector velocityDifference = b.getVelocity().minus(a.getVelocity());
 
         // Calculate relative velocity in terms of the normal direction
         double velAlongNormal = velocityDifference.dotProduct(collisionNormal);
@@ -80,7 +80,7 @@ public class PhysicsWorld implements Drawable {
         double impulseLength = -(1 + bouncyness) * velAlongNormal / (1 / a.mass + 1 / b.mass);
 
         // Apply impulse
-        Vector2 impulse = collisionNormal.multiply(impulseLength);
+        Vector impulse = collisionNormal.multiply(impulseLength);
         a.setVelocity(a.getVelocity().minus(impulse.multiply(1 / a.mass)));
         b.setVelocity(b.getVelocity().plus(impulse.multiply(1 / b.mass)));
     }

@@ -2,7 +2,7 @@ package nl.rutgerkok.physicssimulation.shape;
 
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -23,17 +23,17 @@ public final class Rectangle implements Shape {
      *            The position of the bottom-right corner.
      * @return The box.
      */
-    public static Rectangle rectangle(Vector2 min, Vector2 max) {
+    public static Rectangle rectangle(Vector min, Vector max) {
         if (min.getX() >= max.getX() || min.getY() >= max.getY()) {
             throw new IllegalArgumentException("Invalid dimensions: " + min + " to " + max);
         }
         return new Rectangle(min, max);
     }
 
-    private final Vector2 min;
-    private final Vector2 max;
+    private final Vector min;
+    private final Vector max;
 
-    private Rectangle(Vector2 min, Vector2 max) {
+    private Rectangle(Vector min, Vector max) {
         this.min = Objects.requireNonNull(min);
         this.max = Objects.requireNonNull(max);
     }
@@ -62,7 +62,7 @@ public final class Rectangle implements Shape {
     }
 
     @Override
-    public Vector2 getCenter() {
+    public Vector getCenter() {
         // Return average of min and max
         return min.plus(max).divide(2);
     }
@@ -73,7 +73,7 @@ public final class Rectangle implements Shape {
      * 
      * @return The maximum position.
      */
-    public Vector2 getMax() {
+    public Vector getMax() {
         return max;
     }
 
@@ -83,7 +83,7 @@ public final class Rectangle implements Shape {
      * 
      * @return The minimum position.
      */
-    public Vector2 getMin() {
+    public Vector getMin() {
         return min;
     }
 
@@ -111,7 +111,7 @@ public final class Rectangle implements Shape {
     }
 
     @Override
-    public Shape moved(Vector2 amount) {
+    public Shape moved(Vector amount) {
         return rectangle(min.plus(amount), max.plus(amount));
     }
 

@@ -1,7 +1,7 @@
 package nl.rutgerkok.physicssimulation.collision;
 
 import static java.util.Arrays.asList;
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
 import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Set;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class CollisionTest {
 
     @Test
     public void testCircleOverlap() {
-        Vector2 zero = vec2(0, 0);
+        Vector zero = vec2(0, 0);
 
         PhysicalObject left = obj(circle(vec2(-10, 0), 10), zero);
         PhysicalObject right = obj(circle(vec2(10, 0), 10), zero);
@@ -37,7 +37,7 @@ public class CollisionTest {
 
     @Test
     public void testRectangleOverlap() {
-        Vector2 zero = vec2(0, 0);
+        Vector zero = vec2(0, 0);
 
         // Two boxes next to each other
         PhysicalObject left = obj(rectangle(vec2(0, 0), vec2(3, 3)), zero);

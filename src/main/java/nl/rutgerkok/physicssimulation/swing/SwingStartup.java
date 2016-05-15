@@ -1,6 +1,6 @@
 package nl.rutgerkok.physicssimulation.swing;
 
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
 import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;

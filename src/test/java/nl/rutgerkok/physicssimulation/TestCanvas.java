@@ -12,12 +12,12 @@ public class TestCanvas implements Canvas {
     public int arcs = 0;
 
     @Override
-    public void drawArc(Vector2 center, Vector2 size, double startAngle, double endAngle) {
+    public void drawArc(Vector center, Vector size, double startAngle, double endAngle) {
         arcs++;
     }
 
     @Override
-    public void drawLine(Vector2 start, Vector2 end) {
+    public void drawLine(Vector start, Vector end) {
         lines++;
     }
 

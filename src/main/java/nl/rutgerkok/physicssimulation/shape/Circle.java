@@ -1,10 +1,10 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.Vector2;
+import nl.rutgerkok.physicssimulation.Vector;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -25,7 +25,7 @@ public final class Circle implements Shape {
      * @throws IllegalArgumentException
      *             If the radius is not a finite number.
      */
-    public static Circle circle(Vector2 center, double radius) {
+    public static Circle circle(Vector center, double radius) {
         if (!Double.isFinite(radius) || radius <= 0) {
             throw new IllegalArgumentException("Invalid radius: " + radius);
         }
@@ -35,9 +35,9 @@ public final class Circle implements Shape {
 
     private final double radius;
 
-    private final Vector2 center;
+    private final Vector center;
 
-    private Circle(Vector2 center, double radius) {
+    private Circle(Vector center, double radius) {
         this.center = Objects.requireNonNull(center);
         this.radius = radius;
     }
@@ -64,7 +64,7 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public Vector2 getCenter() {
+    public Vector getCenter() {
         return center;
     }
 
@@ -89,7 +89,7 @@ public final class Circle implements Shape {
     }
 
     @Override
-    public Shape moved(Vector2 amount) {
+    public Shape moved(Vector amount) {
         return circle(center.plus(amount), radius);
     }
 

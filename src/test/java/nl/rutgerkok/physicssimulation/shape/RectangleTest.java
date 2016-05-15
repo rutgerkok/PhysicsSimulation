@@ -1,6 +1,6 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import static nl.rutgerkok.physicssimulation.Vector2.vec2;
+import static nl.rutgerkok.physicssimulation.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

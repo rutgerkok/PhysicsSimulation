@@ -36,6 +36,7 @@ public final class PhysicalObject {
     public double restitution = 1;
 
     public double mass = 2;
+    public double invmass = 0.5;
 
     private PhysicalObject(Shape shape, Vector velocity) {
         this.shape = Objects.requireNonNull(shape);

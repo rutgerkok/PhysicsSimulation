@@ -41,10 +41,6 @@ public class PhysicsWorld implements Drawable {
         resolveCollisions();
     }
 
-    private Vector getCollisionNormal(PhysicalObject a, PhysicalObject b) {
-        return b.getShape().getCenter().minus(a.getShape().getCenter()).normalized();
-    }
-
     /**
      * Removes an object from the world. Does nothing if the object was already
      * removed or never added.
@@ -61,28 +57,28 @@ public class PhysicsWorld implements Drawable {
         PhysicalObject a = collision.getOneObject();
         PhysicalObject b = collision.getOtherObject();
 
-        Vector collisionNormal = this.getCollisionNormal(a, b);
-
         // Calculate relative velocity
         Vector velocityDifference = b.getVelocity().minus(a.getVelocity());
 
         // Calculate relative velocity in terms of the normal direction
-        double velAlongNormal = velocityDifference.dotProduct(collisionNormal);
+        double velAlongNormal = velocityDifference.dotProduct(collision.getNormal());
 
         // Do not resolve if velocities are separating
-        if (velAlongNormal > 0)
+        if (velAlongNormal > 0) {
             return;
+        }
 
         // Calculate restitution
         double bouncyness = Math.min(a.restitution, b.restitution);
 
         // Calculate impulse scalar
-        double impulseLength = -(1 + bouncyness) * velAlongNormal / (1 / a.mass + 1 / b.mass);
+        double impulseLength = -(1 + bouncyness) * velAlongNormal / (a.invmass + b.invmass);
 
         // Apply impulse
-        Vector impulse = collisionNormal.multiply(impulseLength);
-        a.setVelocity(a.getVelocity().minus(impulse.multiply(1 / a.mass)));
-        b.setVelocity(b.getVelocity().plus(impulse.multiply(1 / b.mass)));
+        Vector impulse = collision.getNormal().multiply(impulseLength);
+
+        a.setVelocity(a.getVelocity().minus(impulse.multiply(a.invmass)));
+        b.setVelocity(b.getVelocity().plus(impulse.multiply(b.invmass)));
     }
 
     private void resolveCollisions() {

@@ -101,12 +101,12 @@ public final class CollisionChecker {
                 MoreMath.clamp(-halfRectangleXSize, halfRectangleXSize, clampedDistanceBetweenCenters.getX()),
                 MoreMath.clamp(-halfRectangleYSize, halfRectangleYSize, clampedDistanceBetweenCenters.getY()));
 
-        boolean inside = false;
+        boolean circleCenterIsInsideRectangle = false;
 
         // Circle is inside the AABB, so we need to clamp the circle's center
         // to the closest edge
         if (distanceBetweenCenters.equals(clampedDistanceBetweenCenters)) {
-            inside = true;
+            circleCenterIsInsideRectangle = true;
 
             // Find closest axis
             if (Math.abs(distanceBetweenCenters.getX()) > Math.abs(distanceBetweenCenters.getY())) {
@@ -137,13 +137,13 @@ public final class CollisionChecker {
 
         // Early out of the radius is shorter than distance to closest point and
         // Circle not inside the AABB
-        if (squaredNormalLength > circleRadius * circleRadius && !inside)
+        if (squaredNormalLength >= circleRadius * circleRadius && !circleCenterIsInsideRectangle)
             return null;
 
         // Collision normal needs to be flipped to point outside if circle was
         // inside the AABB
-        if (inside) {
-            normal = distanceBetweenCenters.multiply(-1);
+        if (circleCenterIsInsideRectangle) {
+            normal = normal.multiply(-1);
         }
 
         double penetration = circleRadius - Math.sqrt(squaredNormalLength);
@@ -152,25 +152,31 @@ public final class CollisionChecker {
     }
 
     private @Nullable Collision checkCollisionBetweenRectangles(PhysicalObject objA, PhysicalObject objB) {
-        // Setup a couple pointers to each object
         Rectangle a = (Rectangle) objA.getShape();
         Rectangle b = (Rectangle) objB.getShape();
 
         // Vector from A to B
         Vector n = b.getCenter().minus(a.getCenter());
 
-        // Check overlap on x-axis
-        double halfXSizeA = a.getXSize() / 2;
-        double halfXSizeB = b.getXSize() / 2;
-        double xOverlap = halfXSizeA + halfXSizeB - Math.abs(n.getX());
+        // Calculate half extents along x axis for each object
+        double aExtent = a.getXSize() / 2;
+        double bExtent = b.getXSize() / 2;
+
+        // Calculate overlap on x axis
+        double xOverlap = aExtent + bExtent - Math.abs(n.getX());
+
+        // SAT test on x axis
         if (xOverlap <= 0) {
             return null;
         }
 
-        // Check overlap on y-axis
-        double halfYSizeA = a.getYSize() / 2;
-        double halfYSizeB = b.getYSize() / 2;
-        double yOverlap = halfYSizeA + halfYSizeB - Math.abs(n.getY());
+        aExtent = a.getYSize() / 2;
+        bExtent = b.getYSize() / 2;
+
+        // Calculate overlap on y axis
+        double yOverlap = aExtent + bExtent - Math.abs(n.getY());
+
+        // SAT test on y axis
         if (yOverlap <= 0) {
             return null;
         }
@@ -180,11 +186,11 @@ public final class CollisionChecker {
         double penetration;
         if (xOverlap < yOverlap) {
             // Point towards B knowing that n points from A to B
-
             if (n.getX() < 0)
                 normal = vec2(-1, 0);
             else
-                normal = vec2(0, 0);
+                normal = vec2(1, 0);
+
             penetration = xOverlap;
         } else {
             // Point toward B knowing that n points from A to B
@@ -192,9 +198,9 @@ public final class CollisionChecker {
                 normal = vec2(0, -1);
             else
                 normal = vec2(0, 1);
+
             penetration = yOverlap;
         }
-
         return new Collision(objA, objB, penetration, normal);
     }
 

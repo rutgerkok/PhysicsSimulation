@@ -19,6 +19,33 @@ import org.junit.Test;
 public class CollisionTest {
 
     @Test
+    public void testCircleAndRectangleOverlap() {
+        Vector zero = vec2(0, 0);
+
+        PhysicalObject rectangle = obj(rectangle(vec2(1, 0), vec2(2, 2)), zero);
+        PhysicalObject circle = obj(circle(zero, 1.5), zero);
+        PhysicalObject somewhereElse = obj(circle(vec2(3, 1), 1), zero);
+
+        // Check for collisions
+        List<PhysicalObject> objects = asList(rectangle, circle, somewhereElse);
+        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        assertEquals(1, collisions.size());
+        assertTrue(collisions.contains(new Collision(rectangle, circle, 1, zero)));
+    }
+
+    @Test
+    public void testCircleInsideOfRectangle() {
+        Vector zero = vec2(0, 0);
+
+        List<PhysicalObject> objects = asList(
+                obj(rectangle(vec2(-1, -1), vec2(1, 1)), zero),
+                obj(circle(zero, 2), zero));
+        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+
+        assertEquals(1, collisions.size());
+    }
+
+    @Test
     public void testCircleOverlap() {
         Vector zero = vec2(0, 0);
 
@@ -53,5 +80,17 @@ public class CollisionTest {
         assertEquals(2, collisions.size());
         assertTrue(collisions.contains(new Collision(left, boxOnTop, 1, zero)));
         assertTrue(collisions.contains(new Collision(right, boxOnTop, 1, zero)));
+    }
+
+    @Test
+    public void testTwoCirclesAtSamePosition() {
+        Vector zero = vec2(0, 0);
+
+        List<PhysicalObject> objects = asList(
+                obj(circle(zero, 2), zero),
+                obj(circle(zero, 2), zero));
+        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+
+        assertEquals(1, collisions.size());
     }
 }

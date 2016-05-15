@@ -212,7 +212,9 @@ public final class Vector2 implements Drawable {
 
     @Override
     public String toString() {
-        return "vec2(" + x + ", " + y + ")";
+        double roundedX = Math.round(x * 100) / 100;
+        double roundedY = Math.round(y * 100) / 100;
+        return "vec2(" + roundedX + ", " + roundedY + ")";
     }
 
 }

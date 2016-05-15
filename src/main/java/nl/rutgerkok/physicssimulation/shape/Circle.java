@@ -66,6 +66,15 @@ public final class Circle implements Shape {
         return center;
     }
 
+    /**
+     * Gets the radius of this circle.
+     * 
+     * @return The radius.
+     */
+    public double getRadius() {
+        return radius;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -77,17 +86,9 @@ public final class Circle implements Shape {
         return result;
     }
 
-    /**
-     * Checks if this circle overlaps with another circle.
-     *
-     * @param that
-     *            The other circle.
-     * @return True if the circles overlap, false otherwise.
-     */
-    public boolean overlapsWith(Circle that) {
-        double radiusSum = this.radius + that.radius;
-
-        return radiusSum * radiusSum > this.center.getSquaredDistanceTo(that.center);
+    @Override
+    public Shape moved(Vector2 amount) {
+        return circle(center.plus(amount), radius);
     }
 
     @Override
@@ -98,10 +99,5 @@ public final class Circle implements Shape {
     @Override
     public String toString() {
         return "circle(" + center + ", " + radius + ")";
-    }
-
-    @Override
-    public Shape moved(Vector2 amount) {
-        return circle(center.plus(amount), radius);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.rutgerkok.physicssimulation.MoreMath;
 import nl.rutgerkok.physicssimulation.Vector2;
 import nl.rutgerkok.physicssimulation.shape.Circle;
 import nl.rutgerkok.physicssimulation.shape.Rectangle;
@@ -14,10 +15,16 @@ import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+/**
+ * Checks for collisions between objects. Based on <a href=
+ * "http://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-the-basics-and-impulse-resolution--gamedev-6331">
+ * this tutorial</a>.
+ *
+ * @see #getCollisions(Collection)
+ */
 public final class CollisionChecker {
 
-    @Nullable
-    private Collision checkCollision(PhysicalObject a, PhysicalObject b) {
+    private @Nullable Collision checkCollision(PhysicalObject a, PhysicalObject b) {
         Shape shapeA = a.getShape();
         Shape shapeB = b.getShape();
 
@@ -25,18 +32,23 @@ public final class CollisionChecker {
             if (shapeB instanceof Circle) {
                 return checkCollisionBetweenCircles(a, b);
             }
+            if (shapeB instanceof Rectangle) {
+                return checkCollisionBetweenRectangleAndCircle(b, a);
+            }
         }
         if (shapeA instanceof Rectangle) {
             if (shapeB instanceof Rectangle) {
                 return checkCollisionBetweenRectangles(a, b);
+            }
+            if (shapeB instanceof Circle) {
+                return checkCollisionBetweenRectangleAndCircle(a, b);
             }
         }
 
         return null;
     }
 
-    @Nullable
-    private Collision checkCollisionBetweenCircles(PhysicalObject objA, PhysicalObject objB) {
+    private @Nullable Collision checkCollisionBetweenCircles(PhysicalObject objA, PhysicalObject objB) {
         Circle a = (Circle) objA.getShape();
         Circle b = (Circle) objB.getShape();
 
@@ -69,8 +81,77 @@ public final class CollisionChecker {
         }
     }
 
-    @Nullable
-    private Collision checkCollisionBetweenRectangles(PhysicalObject objA, PhysicalObject objB) {
+    private @Nullable Collision checkCollisionBetweenRectangleAndCircle(PhysicalObject objA, PhysicalObject objB) {
+        // Setup a couple pointers to each object
+        Rectangle rectangle = (Rectangle) objA.getShape();
+        Circle circle = (Circle) objB.getShape();
+
+        // Vector from A to B
+        Vector2 distanceBetweenCenters = circle.getCenter().minus(rectangle.getCenter());
+
+        // Closest point on A to center of B
+        Vector2 clampedDistanceBetweenCenters = distanceBetweenCenters;
+
+        // Calculate half extents along each axis
+        double halfRectangleXSize = rectangle.getXSize() / 2;
+        double halfRectangleYSize = rectangle.getYSize() / 2;
+
+        // Clamp point to edges of the rectangle
+        clampedDistanceBetweenCenters = vec2(
+                MoreMath.clamp(-halfRectangleXSize, halfRectangleXSize, clampedDistanceBetweenCenters.getX()),
+                MoreMath.clamp(-halfRectangleYSize, halfRectangleYSize, clampedDistanceBetweenCenters.getY()));
+
+        boolean inside = false;
+
+        // Circle is inside the AABB, so we need to clamp the circle's center
+        // to the closest edge
+        if (distanceBetweenCenters.equals(clampedDistanceBetweenCenters)) {
+            inside = true;
+
+            // Find closest axis
+            if (Math.abs(distanceBetweenCenters.getX()) > Math.abs(distanceBetweenCenters.getY())) {
+                // Clamp to closest extent
+                if (clampedDistanceBetweenCenters.getX() > 0)
+                    clampedDistanceBetweenCenters = vec2(halfRectangleXSize,
+                            clampedDistanceBetweenCenters.getY());
+                else
+                    clampedDistanceBetweenCenters = vec2(-halfRectangleXSize,
+                            clampedDistanceBetweenCenters.getY());
+            }
+
+            // y axis is shorter
+            else {
+                // Clamp to closest extent
+                if (clampedDistanceBetweenCenters.getY() > 0)
+                    clampedDistanceBetweenCenters = vec2(
+                            clampedDistanceBetweenCenters.getX(), halfRectangleYSize);
+                else
+                    clampedDistanceBetweenCenters = vec2(
+                            clampedDistanceBetweenCenters.getX(), -halfRectangleYSize);
+            }
+        }
+
+        Vector2 normal = distanceBetweenCenters.minus(clampedDistanceBetweenCenters);
+        double squaredNormalLength = normal.getSquaredLength();
+        double circleRadius = circle.getRadius();
+
+        // Early out of the radius is shorter than distance to closest point and
+        // Circle not inside the AABB
+        if (squaredNormalLength > circleRadius * circleRadius && !inside)
+            return null;
+
+        // Collision normal needs to be flipped to point outside if circle was
+        // inside the AABB
+        if (inside) {
+            normal = distanceBetweenCenters.multiply(-1);
+        }
+
+        double penetration = circleRadius - Math.sqrt(squaredNormalLength);
+
+        return new Collision(objA, objB, penetration, normal.normalized());
+    }
+
+    private @Nullable Collision checkCollisionBetweenRectangles(PhysicalObject objA, PhysicalObject objB) {
         // Setup a couple pointers to each object
         Rectangle a = (Rectangle) objA.getShape();
         Rectangle b = (Rectangle) objB.getShape();

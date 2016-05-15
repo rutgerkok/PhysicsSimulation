@@ -97,7 +97,7 @@ public final class CollisionChecker {
         // Find out which axis is axis of least penetration
         Vector2 normal;
         double penetration;
-        if (xOverlap > yOverlap) {
+        if (xOverlap < yOverlap) {
             // Point towards B knowing that n points from A to B
 
             if (n.getX() < 0)

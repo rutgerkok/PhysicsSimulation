@@ -26,6 +26,6 @@ final class DrawPanel extends JPanel {
     @Override
     public void paintComponent(@Nullable Graphics graphics) {
         Objects.requireNonNull(graphics);
-        painter.toDrawing(new SwingCanvas(graphics));
+        painter.toDrawing(new SwingCanvas(graphics, getSize()));
     }
 }

@@ -118,7 +118,7 @@ public final class Rectangle implements Shape {
 
     @Override
     public void toDrawing(Canvas canvas) {
-        canvas.drawSquare(this.min, this.max);
+        canvas.drawRectangle(this.min, this.max);
     }
 
     @Override

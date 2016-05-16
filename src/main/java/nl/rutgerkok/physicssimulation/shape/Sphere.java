@@ -1,20 +1,20 @@
 package nl.rutgerkok.physicssimulation.shape;
 
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.vector.Vector;
-import nl.rutgerkok.physicssimulation.vector.Vector2;
+import nl.rutgerkok.physicssimulation.vector.Vector3;
 
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * Represents a circle.
+ * Represents a three-dimensional sphere.
  *
  */
-public final class Circle implements Spherical {
+public final class Sphere implements Spherical {
     /**
      * Creates a new circle with the given center and radius.
      * 
@@ -26,18 +26,18 @@ public final class Circle implements Spherical {
      * @throws IllegalArgumentException
      *             If the radius is not a finite number.
      */
-    public static Circle circle(Vector2 center, double radius) {
+    public static Sphere sphere(Vector3 center, double radius) {
         if (!Double.isFinite(radius) || radius <= 0) {
             throw new IllegalArgumentException("Invalid radius: " + radius);
         }
 
-        return new Circle(center, radius);
+        return new Sphere(center, radius);
     }
 
     private final double radius;
-    private final Vector2 center;
+    private final Vector3 center;
 
-    private Circle(Vector2 center, double radius) {
+    private Sphere(Vector3 center, double radius) {
         this.center = Objects.requireNonNull(center);
         this.radius = radius;
     }
@@ -50,7 +50,7 @@ public final class Circle implements Spherical {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Circle other = (Circle) obj;
+        Sphere other = (Sphere) obj;
         if (!center.equals(other.center))
             return false;
         if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
@@ -59,7 +59,7 @@ public final class Circle implements Spherical {
     }
 
     @Override
-    public Vector2 getCenter() {
+    public Vector3 getCenter() {
         return center;
     }
 
@@ -70,7 +70,7 @@ public final class Circle implements Spherical {
 
     @Override
     public double getVolume() {
-        return Math.PI * radius * radius;
+        return (4.0 / 3.0) * Math.PI * (radius * radius * radius);
     }
 
     @Override
@@ -86,17 +86,17 @@ public final class Circle implements Spherical {
 
     @Override
     public Shape moved(Vector amount) {
-        return circle(center.plus(amount), radius);
+        return sphere(center.plus(amount), radius);
     }
 
     @Override
     public void toDrawing(Canvas canvas) {
-        Vector2 radiusSquare = vec2(radius, radius);
-        canvas.drawEllips(center.minus(radiusSquare), center.plus(radiusSquare));
+        Vector3 radiusSquare = vec3(radius, radius, radius);
+        canvas.drawEgg(center.minus(radiusSquare), center.plus(radiusSquare));
     }
 
     @Override
     public String toString() {
-        return "circle(" + center + ", " + radius + ")";
+        return "sphere(" + center + ", " + radius + ")";
     }
 }

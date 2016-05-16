@@ -1,6 +1,6 @@
 package nl.rutgerkok.physicssimulation.world;
 
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 
 import java.util.Objects;
 
@@ -69,7 +69,7 @@ public final class PhysicalObject {
      */
     public void advance(double deltaTime) {
         // Symplectic Euler - assumes constant force over deltaTime
-        Vector force = vec2(0, 0);
+        Vector force = vec3(0, 0, 0);
         Vector acceleration = force.multiply(invertedMass);
         velocity = velocity.plus(acceleration.multiply(deltaTime));
         shape = shape.moved(velocity.multiply(deltaTime));

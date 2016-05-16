@@ -3,6 +3,7 @@ package nl.rutgerkok.physicssimulation.paint;
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
 import nl.rutgerkok.physicssimulation.vector.Vector2;
+import nl.rutgerkok.physicssimulation.vector.Vector3;
 
 /**
  * A canvas that can be drawn on.
@@ -11,19 +12,24 @@ import nl.rutgerkok.physicssimulation.vector.Vector2;
 public interface Canvas {
 
     /**
-     * Draw an arc on this canvas.
+     * Draw an egg (elongated sphere) on this canvas.
      * 
-     * @param center
-     *            Top left corner of the AABB around the arc.
-     * @param size
-     *            Size of the arc.
-     * @param startAngle
-     *            The angle the arc starts drawing, in radians.
-     * @param endAngle
-     *            The angle the arc stops drawing, relative to the start, in
-     *            radians.
+     * @param min
+     *            Top left corner of the AABB around the egg.
+     * @param end
+     *            Bottom right corner of the AABB around the egg.
      */
-    void drawArc(Vector2 center, Vector2 size, double startAngle, double endAngle);
+    void drawEgg(Vector3 min, Vector3 end);
+
+    /**
+     * Draw an ellipse on this canvas.
+     * 
+     * @param start
+     *            Top left corner of the AABB around the ellipse.
+     * @param end
+     *            Bottom right corner of the AABB around the ellipse.
+     */
+    void drawEllips(Vector2 start, Vector2 end);
 
     /**
      * Draws a line on this canvas.
@@ -43,7 +49,7 @@ public interface Canvas {
      * @param max
      *            Bottom right position.
      */
-    default void drawSquare(Vector2 min, Vector2 max) {
+    default void drawRectangle(Vector2 min, Vector2 max) {
         drawLine(min, vec2(max.getX(), min.getY())); // top
         drawLine(vec2(min.getX(), max.getY()), max); // bottom
         drawLine(min, vec2(min.getX(), max.getY())); // left

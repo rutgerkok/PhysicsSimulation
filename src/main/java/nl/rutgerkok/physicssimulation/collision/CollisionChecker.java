@@ -10,6 +10,8 @@ import nl.rutgerkok.physicssimulation.MoreMath;
 import nl.rutgerkok.physicssimulation.shape.Circle;
 import nl.rutgerkok.physicssimulation.shape.Rectangle;
 import nl.rutgerkok.physicssimulation.shape.Shape;
+import nl.rutgerkok.physicssimulation.shape.Sphere;
+import nl.rutgerkok.physicssimulation.shape.Spherical;
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
@@ -31,7 +33,7 @@ public final class CollisionChecker {
 
         if (shapeA instanceof Circle) {
             if (shapeB instanceof Circle) {
-                return checkCollisionBetweenCircles(a, b);
+                return checkCollisionBetweenSphericals(a, b);
             }
             if (shapeB instanceof Rectangle) {
                 return checkCollisionBetweenRectangleAndCircle(b, a);
@@ -45,41 +47,13 @@ public final class CollisionChecker {
                 return checkCollisionBetweenRectangleAndCircle(a, b);
             }
         }
+        if (shapeA instanceof Sphere) {
+            if (shapeB instanceof Sphere) {
+                return checkCollisionBetweenSphericals(a, b);
+            }
+        }
 
         return null;
-    }
-
-    private @Nullable Collision checkCollisionBetweenCircles(PhysicalObject objA, PhysicalObject objB) {
-        Circle a = (Circle) objA.getShape();
-        Circle b = (Circle) objB.getShape();
-
-        Vector centerDifference = b.getCenter().minus(a.getCenter());
-
-        double radiusSum = a.getRadius() + b.getRadius();
-        double squaredRadiusSum = radiusSum * radiusSum;
-        double squaredDistanceBetweenCenters = centerDifference.getSquaredLength();
-
-        if (squaredDistanceBetweenCenters >= squaredRadiusSum) {
-            // No collision, exit
-            return null;
-        }
-
-        // Circles have collided, now compute manifold
-        double distanceBetweenCenters = Math.sqrt(squaredDistanceBetweenCenters);
-
-        // If distance between circles is not zero
-        if (distanceBetweenCenters != 0) {
-            // Penetration is difference between radius and distance
-            double penetration = radiusSum - distanceBetweenCenters;
-
-            // Calculate unit vector from b to a
-            Vector normal = centerDifference.divide(distanceBetweenCenters);
-            return new Collision(objA, objB, penetration, normal);
-        } else {
-            // Circles are on same position
-            // Choose random (but consistent) values
-            return new Collision(objA, objB, a.getRadius(), vec2(1, 0));
-        }
     }
 
     private @Nullable Collision checkCollisionBetweenRectangleAndCircle(PhysicalObject objA, PhysicalObject objB) {
@@ -203,6 +177,39 @@ public final class CollisionChecker {
             penetration = yOverlap;
         }
         return new Collision(objA, objB, penetration, normal);
+    }
+
+    private @Nullable Collision checkCollisionBetweenSphericals(PhysicalObject objA, PhysicalObject objB) {
+        Spherical a = (Spherical) objA.getShape();
+        Spherical b = (Spherical) objB.getShape();
+
+        Vector centerDifference = b.getCenter().minus(a.getCenter());
+
+        double radiusSum = a.getRadius() + b.getRadius();
+        double squaredRadiusSum = radiusSum * radiusSum;
+        double squaredDistanceBetweenCenters = centerDifference.getSquaredLength();
+
+        if (squaredDistanceBetweenCenters >= squaredRadiusSum) {
+            // No collision, exit
+            return null;
+        }
+
+        // Circles have collided, now compute manifold
+        double distanceBetweenCenters = Math.sqrt(squaredDistanceBetweenCenters);
+
+        // If distance between circles is not zero
+        if (distanceBetweenCenters != 0) {
+            // Penetration is difference between radius and distance
+            double penetration = radiusSum - distanceBetweenCenters;
+
+            // Calculate unit vector from b to a
+            Vector normal = centerDifference.divide(distanceBetweenCenters);
+            return new Collision(objA, objB, penetration, normal);
+        } else {
+            // Circles are on same position
+            // Choose random (but consistent) values
+            return new Collision(objA, objB, a.getRadius(), vec2(1, 0));
+        }
     }
 
     /**

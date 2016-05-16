@@ -1,8 +1,7 @@
 package nl.rutgerkok.physicssimulation.swing;
 
-import static nl.rutgerkok.physicssimulation.shape.Circle.circle;
-import static nl.rutgerkok.physicssimulation.shape.Rectangle.rectangle;
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
+import static nl.rutgerkok.physicssimulation.shape.Sphere.sphere;
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
 
 import javax.swing.JFrame;
@@ -22,10 +21,9 @@ public final class SwingStartup {
         window.setTitle("PhysicsSimulation");
 
         PhysicsWorld world = new PhysicsWorld();
-        world.addObject(obj(circle(vec2(100, 100), 30), vec2(40, 0), Material.METAL));
-        world.addObject(obj(circle(vec2(300, 100), 30), vec2(1, 5), Material.SUPERBALL));
-        world.addObject(obj(rectangle(vec2(0, 400), vec2(700, 405)), vec2(0, 0), Material.WOOD));
-        world.addObject(obj(rectangle(vec2(50, 500), vec2(200, 520)), vec2(5, -40), Material.ROCK));
+        world.addObject(obj(sphere(vec3(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL));
+        world.addObject(obj(sphere(vec3(0, 0, 10), 2), vec3(0, 2, -6), Material.METAL));
+        world.addObject(obj(sphere(vec3(0, 20, 0), 3), vec3(0, -5, 0), Material.METAL));
         window.setContentPane(new DrawPanel(world));
 
         new Timer(1000 / FPS, event -> {

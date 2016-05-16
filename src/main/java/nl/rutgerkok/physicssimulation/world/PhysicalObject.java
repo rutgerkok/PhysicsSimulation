@@ -26,29 +26,25 @@ public final class PhysicalObject {
      *            The velocity of the object.
      * @param material
      *            The material of the object.
-     * @param force
-     *            The forces working on the object.
      * @return The object.
      */
-    public static PhysicalObject obj(Shape shape, Vector velocity, Material material, Force force) {
-        return new PhysicalObject(shape, velocity, material, force);
+    public static PhysicalObject obj(Shape shape, Vector velocity, Material material) {
+        return new PhysicalObject(shape, velocity, material);
     }
 
     private Shape shape;
     private Vector velocity;
     private final Material material;
-    private final Force force;
 
     /**
      * {@code 1 / mass}. 0 for objects with infinite mass.
      */
     public final double invertedMass;
 
-    private PhysicalObject(Shape shape, Vector velocity, Material material, Force force) {
+    private PhysicalObject(Shape shape, Vector velocity, Material material) {
         this.shape = Objects.requireNonNull(shape);
         this.velocity = Objects.requireNonNull(velocity);
         this.material = Objects.requireNonNull(material);
-        this.force = Objects.requireNonNull(force);
 
         if (material.density == 0) {
             this.invertedMass = 0;
@@ -68,10 +64,23 @@ public final class PhysicalObject {
      */
     void advance(double deltaTime, PhysicsWorld world) {
         // Symplectic Euler - assumes constant force over deltaTime
-        Vector force = this.force.calculate(this, world);
+        Vector force = world.calculateForce(this);
         Vector acceleration = force.multiply(invertedMass);
         velocity = velocity.plus(acceleration.multiply(deltaTime));
         shape = shape.moved(velocity.multiply(deltaTime));
+    }
+
+    /**
+     * Gets the mass of this object. For objects with infinite weight,
+     * {@link Double#MAX_VALUE} is returned.
+     * 
+     * @return The mass.
+     */
+    public double getMass() {
+        if (material.density == 0) {
+            return Double.MAX_VALUE;
+        }
+        return material.density * shape.getVolume();
     }
 
     /**
@@ -114,6 +123,6 @@ public final class PhysicalObject {
 
     @Override
     public String toString() {
-        return "obj(" + shape + ", " + velocity + ", " + material + "," + force + ")";
+        return "obj(" + shape + ", " + velocity + ", " + material + ")";
     }
 }

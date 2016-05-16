@@ -2,6 +2,8 @@ package nl.rutgerkok.physicssimulation.vector;
 
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Represents a two-dimensional vector.
  *
@@ -29,6 +31,22 @@ public final class Vector2 implements Vector {
     @Override
     public Vector2 divide(double scalar) {
         return vec2(this.x / scalar, this.y / scalar);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector2 other = (Vector2) obj;
+        if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+            return false;
+        if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+            return false;
+        return true;
     }
 
     @Override
@@ -66,9 +84,26 @@ public final class Vector2 implements Vector {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(x);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
     public Vector2 minus(Vector other) {
         Vector2 that = asVec2(other);
         return vec2(this.x - that.x, this.y - that.y);
+    }
+
+    @Override
+    public Vector2 multiply(double scalar) {
+        return vec2(this.x * scalar, this.y * scalar);
     }
 
     @Override

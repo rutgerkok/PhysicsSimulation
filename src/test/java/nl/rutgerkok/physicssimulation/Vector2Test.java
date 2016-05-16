@@ -77,7 +77,7 @@ public class Vector2Test {
         vec2(Double.POSITIVE_INFINITY, 2);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInvalidField() {
         vec2(7, 11).getCoord(2);
     }

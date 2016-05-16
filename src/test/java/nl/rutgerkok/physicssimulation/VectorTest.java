@@ -1,5 +1,6 @@
 package nl.rutgerkok.physicssimulation;
 
+import static nl.rutgerkok.physicssimulation.vector.Vector.vec;
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 import static org.junit.Assert.assertEquals;
@@ -20,10 +21,31 @@ public class VectorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMismatchedDimensions() {
+    public void testAddition23MismatchedDimensions() {
         Vector vector3 = vec3(1, 2, 3);
         Vector vector2 = vec2(1, 2);
 
         vector2.plus(vector3);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddition32MismatchedDimensions() {
+        Vector vector3 = vec3(1, 2, 3);
+        Vector vector2 = vec2(1, 2);
+
+        vector3.plus(vector2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDotProductMismatchedDimensions() {
+        Vector vector3 = vec3(1, 2, 3);
+        Vector vector2 = vec2(1, 2);
+
+        vector2.dotProduct(vector3);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptyVector() {
+        vec(new double[0]);
     }
 }

@@ -176,9 +176,7 @@ public interface Vector {
      *            The other vector.
      * @return The result.
      */
-    public default Vector minus(Vector that) {
-        return plus(that.multiply(-1));
-    }
+    public Vector minus(Vector that);
 
     /**
      * Multiplies this vector with a scalar.
@@ -212,13 +210,6 @@ public interface Vector {
      *            The other vector.
      * @return The result vector.
      */
-    public default Vector plus(Vector that) {
-        checkSameDimension(that);
-        double[] newArray = new double[getDimension()];
-        for (int i = 0; i < newArray.length; i++) {
-            newArray[i] = this.getCoord(i) - that.getCoord(i);
-        }
-        return vec(newArray);
-    }
+    public Vector plus(Vector that);
 
 }

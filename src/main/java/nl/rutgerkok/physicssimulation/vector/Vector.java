@@ -16,7 +16,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             When the amount of given coords is not two or three.
      */
-    public static Vector vec(double[] coords) {
+    static Vector vec(double[] coords) {
         if (coords.length == 2) {
             return vec2(coords[0], coords[1]);
         }
@@ -37,7 +37,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             If the x or y are infinite or NaN.
      */
-    public static Vector2 vec2(double x, double y) {
+    static Vector2 vec2(double x, double y) {
         return new Vector2(x, y);
     }
 
@@ -54,7 +54,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             If the x or y are infinite or NaN.
      */
-    public static Vector3 vec3(double x, double y, double z) {
+    static Vector3 vec3(double x, double y, double z) {
         return new Vector3(x, y, z);
     }
 
@@ -66,7 +66,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             If the given vector has another dimension.
      */
-    public default void checkSameDimension(Vector that) {
+    default void checkSameDimension(Vector that) {
         Objects.requireNonNull(that);
         if (that.getDimension() != this.getDimension()) {
             throw new IllegalArgumentException(
@@ -83,7 +83,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             On division by 0.
      */
-    public default Vector divide(double scalar) {
+    default Vector divide(double scalar) {
         return multiply(1 / scalar);
     }
 
@@ -96,7 +96,7 @@ public interface Vector {
      * @throws IllegalArgumentException
      *             When the other vector has a different dimension.
      */
-    public default double dotProduct(Vector that) {
+    default double dotProduct(Vector that) {
         checkSameDimension(that);
         int dimension = this.getDimension();
         double sum = 0;
@@ -122,7 +122,7 @@ public interface Vector {
      * 
      * @return The dimension.
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * Calculates the distance to the other vector.
@@ -131,7 +131,7 @@ public interface Vector {
      *            The other vector.
      * @return The distance.
      */
-    public default double getDistanceTo(Vector that) {
+    default double getDistanceTo(Vector that) {
         return Math.sqrt(getSquaredDistanceTo(that));
     }
 
@@ -141,7 +141,7 @@ public interface Vector {
      * @return The length.
      * @see #getSquaredLength() Faster method
      */
-    public default double getLength() {
+    default double getLength() {
         return Math.sqrt(this.dotProduct(this));
     }
 
@@ -154,7 +154,7 @@ public interface Vector {
      *            The other vector.
      * @return The distance.
      */
-    public default double getSquaredDistanceTo(Vector that) {
+    default double getSquaredDistanceTo(Vector that) {
         Vector difference = this.minus(that);
         return difference.dotProduct(difference);
     }
@@ -165,7 +165,7 @@ public interface Vector {
      * 
      * @return The squared length.
      */
-    public default double getSquaredLength() {
+    default double getSquaredLength() {
         return this.dotProduct(this);
     }
 
@@ -176,7 +176,7 @@ public interface Vector {
      *            The other vector.
      * @return The result.
      */
-    public Vector minus(Vector that);
+    Vector minus(Vector that);
 
     /**
      * Multiplies this vector with a scalar.
@@ -185,7 +185,7 @@ public interface Vector {
      *            The scalar.
      * @return The multiplied vector.
      */
-    public default Vector multiply(double scalar) {
+    default Vector multiply(double scalar) {
         double[] newArray = new double[getDimension()];
         for (int i = 0; i < newArray.length; i++) {
             newArray[i] = this.getCoord(i) * scalar;
@@ -199,7 +199,7 @@ public interface Vector {
      * 
      * @return The normalized version.
      */
-    public default Vector normalized() {
+    default Vector normalized() {
         return this.divide(this.getLength());
     }
 
@@ -210,6 +210,22 @@ public interface Vector {
      *            The other vector.
      * @return The result vector.
      */
-    public Vector plus(Vector that);
+    Vector plus(Vector that);
+
+    /**
+     * Gets a new vector of the same dimension with the value at the given
+     * position changed.
+     *
+     * @param position
+     *            The position.
+     * @param value
+     *            The new value.
+     * @return The new vector.
+     * @throws IllegalArgumentException
+     *             If {@code position < 0 || position >= getDimension()}.
+     * @throws IllegalArgumentException
+     *             IF the value is not finite.
+     */
+    Vector withCoord(int position, double value);
 
 }

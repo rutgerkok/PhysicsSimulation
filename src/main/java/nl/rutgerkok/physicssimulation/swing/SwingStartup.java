@@ -1,14 +1,21 @@
 package nl.rutgerkok.physicssimulation.swing;
 
+import static java.util.Arrays.asList;
 import static nl.rutgerkok.physicssimulation.shape.Sphere.sphere;
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import nl.rutgerkok.physicssimulation.collision.CollisionSupervisor;
+import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.shape.Material;
+import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
+import nl.rutgerkok.physicssimulation.world.Supervisor;
 
 public final class SwingStartup {
 
@@ -20,10 +27,13 @@ public final class SwingStartup {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("PhysicsSimulation");
 
-        PhysicsWorld world = new PhysicsWorld();
-        world.addObject(obj(sphere(vec3(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL));
-        world.addObject(obj(sphere(vec3(0, 0, 10), 2), vec3(0, 2, -6), Material.METAL));
-        world.addObject(obj(sphere(vec3(0, 20, 0), 3), vec3(0, -5, 0), Material.METAL));
+        List<PhysicalObject> objects = asList(
+                obj(sphere(vec3(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL, Forces.GRAVITY),
+                obj(sphere(vec3(0, 0, 10), 2), vec3(0, 2, -6), Material.METAL, Forces.GRAVITY),
+                obj(sphere(vec3(0, 20, 0), 3), vec3(0, -5, 0), Material.METAL, Forces.GRAVITY));
+        List<Supervisor> supervisors = asList(new CollisionSupervisor());
+
+        PhysicsWorld world = new PhysicsWorld(objects, supervisors);
         window.setContentPane(new DrawPanel(world));
 
         new Timer(1000 / FPS, event -> {

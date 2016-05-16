@@ -1,7 +1,5 @@
 package nl.rutgerkok.physicssimulation.world;
 
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
-
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.shape.Material;
@@ -14,7 +12,7 @@ import nl.rutgerkok.physicssimulation.vector.Vector;
  * <p>
  * Note that objects are mutable. This is more like how things happen in the
  * real world: if a car changes its speed, it's still the same car, but with a
- * different speed.
+ * different speed. Only code in this package can modify the object, however.
  * </p>
  */
 public final class PhysicalObject {
@@ -28,31 +26,30 @@ public final class PhysicalObject {
      *            The velocity of the object.
      * @param material
      *            The material of the object.
+     * @param force
+     *            The forces working on the object.
      * @return The object.
      */
-    public static PhysicalObject obj(Shape shape, Vector velocity, Material material) {
-        return new PhysicalObject(shape, velocity, material);
+    public static PhysicalObject obj(Shape shape, Vector velocity, Material material, Force force) {
+        return new PhysicalObject(shape, velocity, material, force);
     }
 
     private Shape shape;
     private Vector velocity;
     private final Material material;
+    private final Force force;
 
-    /**
-     * The restitution, or "bouncyness" of the object.
-     */
-    public final double restitution;
     /**
      * {@code 1 / mass}. 0 for objects with infinite mass.
      */
     public final double invertedMass;
 
-    private PhysicalObject(Shape shape, Vector velocity, Material material) {
+    private PhysicalObject(Shape shape, Vector velocity, Material material, Force force) {
         this.shape = Objects.requireNonNull(shape);
         this.velocity = Objects.requireNonNull(velocity);
         this.material = Objects.requireNonNull(material);
+        this.force = Objects.requireNonNull(force);
 
-        this.restitution = material.restitution;
         if (material.density == 0) {
             this.invertedMass = 0;
         } else {
@@ -66,13 +63,24 @@ public final class PhysicalObject {
      * 
      * @param deltaTime
      *            The amount of time.
+     * @param world
+     *            The world we are in. Only used for calculating forces.
      */
-    public void advance(double deltaTime) {
+    void advance(double deltaTime, PhysicsWorld world) {
         // Symplectic Euler - assumes constant force over deltaTime
-        Vector force = vec3(0, 0, 0);
+        Vector force = this.force.calculate(this, world);
         Vector acceleration = force.multiply(invertedMass);
         velocity = velocity.plus(acceleration.multiply(deltaTime));
         shape = shape.moved(velocity.multiply(deltaTime));
+    }
+
+    /**
+     * Gets the material of this object.
+     *
+     * @return The material.
+     */
+    public Material getMaterial() {
+        return material;
     }
 
     /**
@@ -84,16 +92,28 @@ public final class PhysicalObject {
         return shape;
     }
 
+    /**
+     * Gets the velocity of this object.
+     * 
+     * @return The velocity.
+     */
     public Vector getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Vector velocity) {
-        this.velocity = velocity;
+    /**
+     * Changes the velocity of this object. This method should only be called by
+     * the collision handling code.
+     *
+     * @param velocity
+     *            The new velocity.
+     */
+    void setVelocity(Vector velocity) {
+        this.velocity = Objects.requireNonNull(velocity);
     }
 
     @Override
     public String toString() {
-        return "obj(" + shape + ", " + velocity + ", " + material + ")";
+        return "obj(" + shape + ", " + velocity + ", " + material + "," + force + ")";
     }
 }

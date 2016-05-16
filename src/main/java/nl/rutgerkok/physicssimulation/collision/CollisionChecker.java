@@ -2,7 +2,6 @@ package nl.rutgerkok.physicssimulation.collision;
 
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,9 +22,9 @@ import org.eclipse.jdt.annotation.Nullable;
  * "http://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-the-basics-and-impulse-resolution--gamedev-6331">
  * this tutorial</a>.
  *
- * @see #getCollisions(Collection)
+ * @see #getCollisions(Iterable)
  */
-public final class CollisionChecker {
+final class CollisionChecker {
 
     private @Nullable Collision checkCollision(PhysicalObject a, PhysicalObject b) {
         Shape shapeA = a.getShape();
@@ -219,7 +218,7 @@ public final class CollisionChecker {
      *            The objects.
      * @return All collisions.
      */
-    public Set<Collision> getCollisions(Collection<PhysicalObject> objects) {
+    Set<Collision> getCollisions(Iterable<PhysicalObject> objects) {
         Set<Collision> collisions = new HashSet<>();
         for (PhysicalObject oneObject : objects) {
             for (PhysicalObject otherObject : objects) {

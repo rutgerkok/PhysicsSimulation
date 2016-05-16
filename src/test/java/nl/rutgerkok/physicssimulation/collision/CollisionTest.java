@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Set;
 
+import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.shape.Material;
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
@@ -24,9 +25,9 @@ public class CollisionTest {
     public void testCircleAndRectangleOverlap() {
         Vector2 zero = vec2(0, 0);
 
-        PhysicalObject rectangle = obj(rectangle(vec2(1, 0), vec2(2, 2)), zero, Material.ROCK);
-        PhysicalObject circle = obj(circle(zero, 1.5), zero, Material.ROCK);
-        PhysicalObject somewhereElse = obj(circle(vec2(3, 1), 1), zero, Material.ROCK);
+        PhysicalObject rectangle = obj(rectangle(vec2(1, 0), vec2(2, 2)), zero, Material.ROCK, Forces.ZERO);
+        PhysicalObject circle = obj(circle(zero, 1.5), zero, Material.ROCK, Forces.ZERO);
+        PhysicalObject somewhereElse = obj(circle(vec2(3, 1), 1), zero, Material.ROCK, Forces.ZERO);
 
         // Check for collisions
         List<PhysicalObject> objects = asList(rectangle, circle, somewhereElse);
@@ -40,8 +41,8 @@ public class CollisionTest {
         Vector2 zero = vec2(0, 0);
 
         List<PhysicalObject> objects = asList(
-                obj(rectangle(vec2(-1, -1), vec2(1, 1)), zero, Material.ROCK),
-                obj(circle(zero, 2), zero, Material.ROCK));
+                obj(rectangle(vec2(-1, -1), vec2(1, 1)), zero, Material.ROCK, Forces.ZERO),
+                obj(circle(zero, 2), zero, Material.ROCK, Forces.ZERO));
         Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
 
         assertEquals(1, collisions.size());
@@ -51,9 +52,9 @@ public class CollisionTest {
     public void testCircleOverlap() {
         Vector zero = vec2(0, 0);
 
-        PhysicalObject left = obj(circle(vec2(-10, 0), 10), zero, Material.ROCK);
-        PhysicalObject right = obj(circle(vec2(10, 0), 10), zero, Material.ROCK);
-        PhysicalObject center = obj(circle(vec2(0, 0), 10), zero, Material.ROCK);
+        PhysicalObject left = obj(circle(vec2(-10, 0), 10), zero, Material.ROCK, Forces.ZERO);
+        PhysicalObject right = obj(circle(vec2(10, 0), 10), zero, Material.ROCK, Forces.ZERO);
+        PhysicalObject center = obj(circle(vec2(0, 0), 10), zero, Material.ROCK, Forces.ZERO);
 
         // Check for collisions
         List<PhysicalObject> objects = asList(left, right, center);
@@ -69,11 +70,11 @@ public class CollisionTest {
         Vector zero = vec2(0, 0);
 
         // Two boxes next to each other
-        PhysicalObject left = obj(rectangle(vec2(0, 0), vec2(3, 3)), zero, Material.ROCK);
-        PhysicalObject right = obj(rectangle(vec2(3, 0), vec2(6, 3)), zero, Material.ROCK);
+        PhysicalObject left = obj(rectangle(vec2(0, 0), vec2(3, 3)), zero, Material.ROCK, Forces.ZERO);
+        PhysicalObject right = obj(rectangle(vec2(3, 0), vec2(6, 3)), zero, Material.ROCK, Forces.ZERO);
 
         // A box on top of both
-        PhysicalObject boxOnTop = obj(rectangle(vec2(1, 1), vec2(5, 2)), zero, Material.ROCK);
+        PhysicalObject boxOnTop = obj(rectangle(vec2(1, 1), vec2(5, 2)), zero, Material.ROCK, Forces.ZERO);
 
         // Check for collisions
         List<PhysicalObject> objects = asList(left, right, boxOnTop);
@@ -89,8 +90,8 @@ public class CollisionTest {
         Vector2 zero = vec2(0, 0);
 
         List<PhysicalObject> objects = asList(
-                obj(circle(zero, 2), zero, Material.ROCK),
-                obj(circle(zero, 2), zero, Material.ROCK));
+                obj(circle(zero, 2), zero, Material.ROCK, Forces.ZERO),
+                obj(circle(zero, 2), zero, Material.ROCK, Forces.ZERO));
         Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
 
         assertEquals(1, collisions.size());

@@ -117,4 +117,16 @@ public final class Vector2 implements Vector {
         return "vec2(" + x + ", " + y + ")";
     }
 
+    @Override
+    public Vector withCoord(int position, double value) {
+        switch (position) {
+            case 0:
+                return vec2(value, y);
+            case 1:
+                return vec2(x, value);
+            default:
+                throw new IllegalArgumentException("Invalid position for " + this + ": " + position);
+        }
+    }
+
 }

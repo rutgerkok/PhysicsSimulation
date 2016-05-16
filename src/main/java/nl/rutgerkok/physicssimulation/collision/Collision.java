@@ -3,8 +3,8 @@ package nl.rutgerkok.physicssimulation.collision;
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
-import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 
+import nl.rutgerkok.physicssimulation.world.PhysicalObject;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**

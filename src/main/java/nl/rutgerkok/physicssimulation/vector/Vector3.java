@@ -130,4 +130,18 @@ public final class Vector3 implements Vector {
         return "vec3(" + x + ", " + y + ", " + z + ")";
     }
 
+    @Override
+    public Vector withCoord(int position, double value) {
+        switch (position) {
+            case 0:
+                return vec3(value, y, z);
+            case 1:
+                return vec3(x, value, z);
+            case 2:
+                return vec3(x, y, value);
+            default:
+                throw new IllegalArgumentException("Invalid position for " + this + ": " + position);
+        }
+    }
+
 }

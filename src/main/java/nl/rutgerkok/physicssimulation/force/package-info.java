@@ -1,5 +1,5 @@
 /**
- * Represents the different forces that can act on an object.
+ * Contains the different forces that can act on an object.
  *
  */
 @NonNullByDefault

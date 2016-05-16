@@ -1,5 +1,5 @@
 /**
- * Classes and interfaces related to things happening in a simulated world.
+ * Represents the world and the objects in it.
  *
  */
 @NonNullByDefault

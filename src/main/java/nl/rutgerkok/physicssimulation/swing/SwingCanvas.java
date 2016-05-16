@@ -11,7 +11,13 @@ import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
 
-final class SwingCanvas implements Canvas {
+/**
+ * Implementation of {@link Canvas} that draws using nothing more than a
+ * {@link Graphics} instance. 3D drawing is implemented using a simple
+ * projection.
+ *
+ */
+public final class SwingCanvas implements Canvas {
 
     private final Graphics graphics;
     private final Dimension canvasSize;

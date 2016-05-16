@@ -112,7 +112,7 @@ public interface Vector {
      * @param i
      *            The coord position.
      * @throws IllegalArgumentException
-     *             If i >= dimension.
+     *             If i &gt;= dimension.
      * @return The coord.
      */
     double getCoord(int i);

@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PhysicsSimulation</name>
 	<description>A try at the creation of a physics engine</description>
-	
+
 	<repositories>
 		<repository>
 			<url>https://repo.eclipse.org/</url>
@@ -19,7 +19,7 @@
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.annotation</artifactId>
 			<version>2.0.0.v20140415-1436</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -38,7 +38,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>nl.rutgerkok.apijar.APIJar</mainClass>
+							<mainClass>nl.rutgerkok.physicssimulation.swing.SwingStartup</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -64,6 +64,11 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
 			</plugin>
 		</plugins>
 	</build>

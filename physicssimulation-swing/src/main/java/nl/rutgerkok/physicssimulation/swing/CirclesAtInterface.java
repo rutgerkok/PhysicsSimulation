@@ -23,7 +23,7 @@ final class CirclesAtInterface implements Supplier<PhysicsWorld> {
             // Circles
             .withObject(obj(circle(vec2(0, 0), 2), vec2(0, 0), Material.ROCK))
             .withObject(obj(circle(vec2(5, 0), 2), vec2(0, 0), Material.ROCK))
-            .withObject(obj(circle(vec2(5, 6), 2), vec2(0, 0), Material.ROCK))
+            .withObject(obj(circle(vec2(5.1, 6), 2), vec2(0, 0), Material.ROCK))
             .withObject(obj(circle(vec2(-5, 10), 2), vec2(0, 0), Material.ROCK))
 
             // Walls

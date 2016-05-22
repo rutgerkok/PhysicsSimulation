@@ -20,6 +20,6 @@ public interface Supervisor
      * @param velocity The new velocity.
      */
     default void changeVelocity(PhysicalObject object, Vector velocity) {
-        object.setVelocity(velocity);
+        object.replaceVelocity(velocity);
     }
 }

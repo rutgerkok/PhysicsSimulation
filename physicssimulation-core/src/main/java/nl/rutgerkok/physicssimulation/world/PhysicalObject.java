@@ -18,6 +18,56 @@ import nl.rutgerkok.physicssimulation.vector.Vector;
 public final class PhysicalObject {
 
     /**
+     * Represents what's happening in a step. First, the a velocity is given,
+     * and this is used to calculate where the shape will be at the end of the
+     * step. Then the {@link Supervisor}s come in and change the velocity. This
+     * means that the calculated end position is no longer accurate. However, as
+     * to not disturb the collision mechanisms, it is not recalculated until the
+     * step is over.
+     *
+     */
+    private static class CurrentStep {
+        private final Shape shapeAtBeginning;
+        /**
+         * The shape at the end of the step, as predicted by the initial
+         * velocity.
+         */
+        private Shape predictedEndShape;
+        private boolean isPredictionAccurate;
+        private final double deltaTime;
+        private Vector velocity;
+
+        public CurrentStep(Shape shapeAtBeginning, Vector velocity, double deltaTime) {
+            this.shapeAtBeginning = Objects.requireNonNull(shapeAtBeginning);
+            this.isPredictionAccurate = true;
+            this.velocity = Objects.requireNonNull(velocity);
+            this.deltaTime = deltaTime;
+
+            this.predictedEndShape = shapeAtBeginning.moved(velocity.multiply(deltaTime));
+        }
+
+        /**
+         * Gets the final, resulting shape using the current velocity.
+         * 
+         * @return The final shape.
+         */
+        Shape getResultingShape() {
+            if (this.isPredictionAccurate) {
+                return this.predictedEndShape;
+            }
+            // Recalculate using changed velocity
+            return this.shapeAtBeginning.moved(velocity.multiply(deltaTime));
+        }
+
+        void replaceVelocity(Vector velocity) {
+            // Oh - the velocity is replaced. Our prediction is no longer
+            // accurate. Mark is as such.
+            this.velocity = Objects.requireNonNull(velocity);
+            this.isPredictionAccurate = false;
+        }
+    }
+
+    /**
      * Creates a new object with the given shape.
      *
      * @param shape
@@ -32,8 +82,7 @@ public final class PhysicalObject {
         return new PhysicalObject(shape, velocity, material);
     }
 
-    private Shape shape;
-    private Vector velocity;
+    private CurrentStep currentStep;
     private final Material material;
 
     /**
@@ -42,9 +91,9 @@ public final class PhysicalObject {
     public final double invertedMass;
 
     private PhysicalObject(Shape shape, Vector velocity, Material material) {
-        this.shape = Objects.requireNonNull(shape);
-        this.velocity = Objects.requireNonNull(velocity);
         this.material = Objects.requireNonNull(material);
+
+        this.currentStep = new CurrentStep(shape, velocity, 0);
 
         if (material.density == 0) {
             this.invertedMass = 0;
@@ -66,8 +115,9 @@ public final class PhysicalObject {
         // Symplectic Euler - assumes constant force over deltaTime
         Vector force = world.calculateForce(this);
         Vector acceleration = force.multiply(invertedMass);
-        velocity = velocity.plus(acceleration.multiply(deltaTime));
-        shape = shape.moved(velocity.multiply(deltaTime));
+        Vector velocity = currentStep.velocity.plus(acceleration.multiply(deltaTime));
+
+        currentStep = new CurrentStep(currentStep.getResultingShape(), velocity, deltaTime);
     }
 
     /**
@@ -80,7 +130,7 @@ public final class PhysicalObject {
         if (material.density == 0) {
             return Double.MAX_VALUE;
         }
-        return material.density * shape.getVolume();
+        return material.density * currentStep.predictedEndShape.getVolume();
     }
 
     /**
@@ -98,7 +148,7 @@ public final class PhysicalObject {
      * @return The shape.
      */
     public Shape getShape() {
-        return shape;
+        return currentStep.predictedEndShape;
     }
 
     /**
@@ -107,22 +157,23 @@ public final class PhysicalObject {
      * @return The velocity.
      */
     public Vector getVelocity() {
-        return velocity;
+        return currentStep.velocity;
     }
 
     /**
-     * Changes the velocity of this object. This method should only be called by
-     * the collision handling code.
+     * Replaces the velocity of this object. The movements of the lastest time
+     * step will be undone and recalculated later on using this velocity. This
+     * method should only be called by the collision handling code.
      *
      * @param velocity
      *            The new velocity.
      */
-    void setVelocity(Vector velocity) {
-        this.velocity = Objects.requireNonNull(velocity);
+    void replaceVelocity(Vector velocity) {
+        currentStep.replaceVelocity(velocity);
     }
 
     @Override
     public String toString() {
-        return "obj(" + shape + ", " + velocity + ", " + material + ")";
+        return "obj(" + currentStep.predictedEndShape + ", " + currentStep.velocity + ", " + material + ")";
     }
 }

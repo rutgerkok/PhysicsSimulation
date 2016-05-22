@@ -12,7 +12,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * objects.
  *
  */
-public final class Collision {
+final class Collision {
     private final PhysicalObject one;
     private final PhysicalObject other;
     private final double penetration;
@@ -53,7 +53,7 @@ public final class Collision {
      * 
      * @return The collision normal.
      */
-    public Vector getNormal() {
+    Vector getNormal() {
         return normal;
     }
 
@@ -62,16 +62,17 @@ public final class Collision {
      * 
      * @return One of the objects.
      */
-    public PhysicalObject getOneObject() {
+    PhysicalObject getOneObject() {
         return one;
     }
+
 
     /**
      * Gets the other object involved in this collision.
      * 
      * @return The other object.
      */
-    public PhysicalObject getOtherObject() {
+    PhysicalObject getOtherObject() {
         return other;
     }
 
@@ -80,7 +81,7 @@ public final class Collision {
      * 
      * @return The penetration.
      */
-    public double getPenetration() {
+    double getPenetration() {
         return penetration;
     }
 

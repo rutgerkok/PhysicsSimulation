@@ -5,7 +5,7 @@ import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import nl.rutgerkok.physicssimulation.TestCanvas;
+import nl.rutgerkok.physicssimulation.paint.CountingCanvas;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class CircleTest {
 
     @Test
     public void testDrawing() {
-        TestCanvas canvas = new TestCanvas();
+        CountingCanvas canvas = new CountingCanvas();
         circle(vec2(10, 10), 3).toDrawing(canvas);
 
         assertEquals(1, canvas.arcs);

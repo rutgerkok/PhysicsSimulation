@@ -1,4 +1,4 @@
-package nl.rutgerkok.physicssimulation;
+package nl.rutgerkok.physicssimulation.paint;
 
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
@@ -8,7 +8,7 @@ import nl.rutgerkok.physicssimulation.vector.Vector3;
  * Fake drawing canvas that just keeps trac of some statistics.
  *
  */
-public class TestCanvas implements Canvas {
+public class CountingCanvas implements Canvas {
 
     public int lines = 0;
     public int arcs = 0;

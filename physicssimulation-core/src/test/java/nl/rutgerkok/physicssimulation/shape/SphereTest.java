@@ -5,7 +5,7 @@ import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import nl.rutgerkok.physicssimulation.TestCanvas;
+import nl.rutgerkok.physicssimulation.paint.CountingCanvas;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class SphereTest {
 
     @Test
     public void testDrawing() {
-        TestCanvas canvas = new TestCanvas();
+        CountingCanvas canvas = new CountingCanvas();
         sphere(vec3(10, 10, 10), 3).toDrawing(canvas);
 
         assertEquals(1, canvas.arcs);

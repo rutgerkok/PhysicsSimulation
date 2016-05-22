@@ -28,4 +28,8 @@ public final class MoreMath {
         return value;
     }
 
+    MoreMath() {
+        throw new RuntimeException("No instances");
+    }
+
 }

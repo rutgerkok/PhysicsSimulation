@@ -17,4 +17,9 @@ public class MoreMathTest {
     public void testInvalidClampLimits() {
         MoreMath.clamp(5, 4, 4.5);
     }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoInstances() {
+        new MoreMath();
+    }
 }

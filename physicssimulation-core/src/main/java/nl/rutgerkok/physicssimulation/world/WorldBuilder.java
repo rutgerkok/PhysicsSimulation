@@ -74,6 +74,11 @@ public final class WorldBuilder {
         return new PhysicsWorld(this);
     }
 
+    @Override
+    public String toString() {
+        return "WorldBuilder [objects=" + objects + ", forces=" + forces + ", supervisors=" + supervisors + "]";
+    }
+
     /**
      * Add a force to the world. The force will be applied to all instances.
      *

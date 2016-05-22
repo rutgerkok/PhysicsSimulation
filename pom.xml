@@ -6,70 +6,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PhysicsSimulation</name>
 	<description>A try at the creation of a physics engine</description>
-
-	<repositories>
-		<repository>
-			<url>https://repo.eclipse.org/</url>
-			<id>eclipse-repo</id>
-		</repository>
-	</repositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.jdt</groupId>
-			<artifactId>org.eclipse.jdt.annotation</artifactId>
-			<version>2.0.0.v20140415-1436</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>nl.rutgerkok.physicssimulation.swing.SwingStartup</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-			</plugin>
-		</plugins>
-	</build>
+	<packaging>pom</packaging>
+  <modules>
+    <module>physicssimulation-core</module>
+    <module>physicssimulation-swing</module>
+  </modules>
 </project>

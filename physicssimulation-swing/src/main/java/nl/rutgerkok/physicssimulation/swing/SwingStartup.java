@@ -1,43 +1,30 @@
 package nl.rutgerkok.physicssimulation.swing;
 
-import static nl.rutgerkok.physicssimulation.shape.Sphere.sphere;
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
-import static nl.rutgerkok.physicssimulation.world.PhysicalObject.obj;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 
-import javax.swing.JFrame;
-import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import nl.rutgerkok.physicssimulation.collision.CollisionSupervisor;
-import nl.rutgerkok.physicssimulation.force.Forces;
-import nl.rutgerkok.physicssimulation.shape.Material;
+import nl.rutgerkok.physicssimulation.swing.view.MainWindow;
 import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
-import nl.rutgerkok.physicssimulation.world.WorldBuilder;
 
 public final class SwingStartup {
 
     public static final int FPS = 60;
 
     public static void main(String... args) {
-        JFrame window = new JFrame();
-        window.setSize(800, 600);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setTitle("PhysicsSimulation");
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            // Ignore, use default look and feel
+        }
 
-        PhysicsWorld world = WorldBuilder.newWorld()
-                .withObject(obj(sphere(vec3(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL))
-                .withObject(obj(sphere(vec3(0, 0, 10), 2), vec3(0, 2, -6), Material.METAL))
-                .withObject(obj(sphere(vec3(0, 20, 0), 3), vec3(0, -5, 0), Material.METAL))
-                .withSupervisor(new CollisionSupervisor())
-                .withForce(Forces.GRAVITY)
-                .create();
+        List<Supplier<PhysicsWorld>> worldChoices = Arrays.asList(new CirclesAtInterface(), new ThreeFallingSpheres());
+        PhysicsWorld world = worldChoices.get(0).get();
 
-        window.setContentPane(new DrawPanel(world));
-
-        new Timer(1000 / FPS, event -> {
-            world.advance(1 / (double) FPS);
-            window.repaint();
-        }).start();
-
-        window.setVisible(true);
+        new MainWindow(world, worldChoices);
     }
 }

@@ -2,6 +2,7 @@ package nl.rutgerkok.physicssimulation.paint;
 
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
 
+import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
 
@@ -38,12 +39,14 @@ public interface Canvas {
      *            The start position.
      * @param end
      *            The end position.
+     * @throws IllegalArgumentException
+     *             If start and end are in different dimensions.
      */
-    void drawLine(Vector2 start, Vector2 end);
+    void drawLine(Vector start, Vector end);
 
     /**
      * Draws a square on the canvas.
-     * 
+     *
      * @param min
      *            Top left position.
      * @param max

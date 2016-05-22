@@ -1,4 +1,4 @@
-package nl.rutgerkok.physicssimulation.swing;
+package nl.rutgerkok.physicssimulation.swing.view;
 
 import java.awt.Graphics;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package nl.rutgerkok.physicssimulation.paint;
 
-import nl.rutgerkok.physicssimulation.paint.Canvas;
+import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
 
@@ -24,7 +24,7 @@ public class CountingCanvas implements Canvas {
     }
 
     @Override
-    public void drawLine(Vector2 start, Vector2 end) {
+    public void drawLine(Vector start, Vector end) {
         lines++;
     }
 

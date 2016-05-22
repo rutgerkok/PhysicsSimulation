@@ -56,6 +56,18 @@ public class IsotropicInteractionTest {
     }
 
     @Test
+    public void testNoForceWhenAtSamePosition() {
+        PhysicalObject obj1 = setupObject(vec2(0, 0));
+        PhysicalObject obj2 = setupObject(vec2(0, 0));
+        PhysicsWorld world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create();
+
+        Vector force = Forces.attraction(200, 2).calculate(obj1, world);
+
+        assertEquals(0, force.getCoord(0), 0.1);
+        assertEquals(0, force.getCoord(1), 0.1);
+    }
+
+    @Test
     public void testRepulsion3D() {
         PhysicalObject obj1 = setupObject(vec3(-2, 0, 0));
         PhysicalObject obj2 = setupObject(vec3(2, 0, 0));

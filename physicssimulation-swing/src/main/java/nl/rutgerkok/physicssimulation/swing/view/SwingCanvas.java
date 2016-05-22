@@ -1,13 +1,13 @@
-package nl.rutgerkok.physicssimulation.swing;
+package nl.rutgerkok.physicssimulation.swing.view;
 
 import static nl.rutgerkok.physicssimulation.vector.Vector.vec2;
-import static nl.rutgerkok.physicssimulation.vector.Vector.vec3;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.paint.Canvas;
+import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
 
@@ -27,11 +27,6 @@ public final class SwingCanvas implements Canvas {
     public SwingCanvas(Graphics graphics, Dimension canvasSize) {
         this.graphics = Objects.requireNonNull(graphics);
         this.canvasSize = Objects.requireNonNull(canvasSize);
-
-        // Draw axis
-        drawLine(vec3(0, 0, 0), vec3(20, 0, 0)); // x-axis
-        drawLine(vec3(0, 0, 0), vec3(0, 20, 0)); // y-axis
-        drawLine(vec3(0, 0, 0), vec3(0, 0, 20)); // z-axis
     }
 
     @Override
@@ -56,11 +51,27 @@ public final class SwingCanvas implements Canvas {
     }
 
     @Override
-    public void drawLine(Vector2 start, Vector2 end) {
+    public void drawLine(Vector start, Vector end) {
+        start.checkSameDimension(end);
+
+        switch (start.getDimension()) {
+            case 2:
+                drawLine2((Vector2) start, (Vector2) end);
+                return;
+            case 3:
+                drawLine3((Vector3) start, (Vector3) end);
+                return;
+            default:
+                throw new UnsupportedOperationException(
+                        "Cannot draw line, unsupported dimension " + start.getDimension());
+        }
+    }
+
+    public void drawLine2(Vector2 start, Vector2 end) {
         graphics.drawLine(x(start), y(start), x(end), y(end));
     }
 
-    private void drawLine(Vector3 start, Vector3 end) {
+    private void drawLine3(Vector3 start, Vector3 end) {
         drawLine(projectOnPlane(start), projectOnPlane(end));
     }
 

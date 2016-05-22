@@ -1,8 +1,6 @@
 package nl.rutgerkok.physicssimulation.force;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.world.Force;
@@ -19,7 +17,7 @@ public final class Forces {
 
     /**
      * Creates an isotropic (=non-directional) attractive force,
-     * {@code F = c / r^p}.
+     * {@code -F = c / r^p}.
      *
      * @param constant
      *            The constant c in the above expression.
@@ -37,7 +35,7 @@ public final class Forces {
             throw new IllegalArgumentException("Invalid constant: " + constant
                     + " (maybe use a repulsive force instead?)");
         }
-        return new IsotropicInteraction(constant, power);
+        return new IsotropicInteraction(-constant, power);
     }
 
     /**
@@ -48,12 +46,12 @@ public final class Forces {
      * @return The resultant force.
      */
     public static Force combine(Collection<Force> forces) {
-        List<Force> immutableForces = new ArrayList<>(forces);
+        Force[] immutableForces = forces.toArray(new Force[0]);
         return new Force() {
 
             @Override
             public Vector calculate(PhysicalObject object, PhysicsWorld world) {
-                Vector result = object.getVelocity().multiply(0);
+                Vector result = world.getZeroVector();
 
                 for (Force force : immutableForces) {
                     result = result.plus(force.calculate(object, world));
@@ -65,8 +63,25 @@ public final class Forces {
     }
 
     /**
+     * Creates a
+     * <a href="https://en.wikipedia.org/wiki/Lennard-Jones_potential">Lennard-
+     * Jones potential</a>.
+     *
+     * @param epsilon
+     *            Depth of potential well.
+     * @param sigma
+     *            Distance between particle centers where potential energy is 0.
+     * @return The Lennard-Jones potential.
+     */
+    public static Force lennardJones(double epsilon, double sigma) {
+        Force repulsive = Forces.repulsion(4 * epsilon * Math.pow(sigma, 12), 12);
+        Force attractive = Forces.attraction(4 * epsilon * Math.pow(sigma, 6), 6);
+        return (object, world) -> repulsive.calculate(object, world).plus(attractive.calculate(object, world));
+    }
+
+    /**
      * Creates an isotropic (=non-directional) repulsive force,
-     * {@code F = -c / r^p}.
+     * {@code F = c / r^p}.
      *
      * @param constant
      *            The constant c in the above expression.
@@ -84,7 +99,7 @@ public final class Forces {
             throw new IllegalArgumentException("Invalid constant: " + constant
                     + " (maybe use an attractive force instead?)");
         }
-        return new IsotropicInteraction(-constant, power);
+        return new IsotropicInteraction(constant, power);
     }
 
     Forces() {

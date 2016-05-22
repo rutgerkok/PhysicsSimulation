@@ -24,7 +24,7 @@ final class IsotropicInteraction implements Force {
      * @throws IllegalArgumentException
      *             When p is negative or too high, or when c is 0.
      */
-    public IsotropicInteraction(double constant, int power) {
+    IsotropicInteraction(double constant, int power) {
         if (constant == 0) {
             throw new IllegalArgumentException("Invalid constant: " + constant);
         }
@@ -43,9 +43,13 @@ final class IsotropicInteraction implements Force {
                 continue;
             }
 
-            Vector difference = otherObject.getShape().getCenter().minus(object.getShape().getCenter());
+            Vector difference = object.getShape().getCenter().minus(otherObject.getShape().getCenter());
 
             double distance = difference.getLength();
+            if (distance == 0) {
+                // Prevent division by zero
+                continue;
+            }
             Vector differenceNormalized = difference.divide(distance);
             resultant = resultant.plus(differenceNormalized.multiply(constant / Math.pow(distance, power)));
         }
@@ -55,9 +59,9 @@ final class IsotropicInteraction implements Force {
     @Override
     public String toString() {
         if (constant < 0) {
-            return "Forces.repulsion(" + -constant + ", " + power + ")";
+            return "Forces.attraction(" + -constant + ", " + power + ")";
         } else {
-            return "Forces.attraction(" + constant + ", " + power + ")";
+            return "Forces.repulsion(" + constant + ", " + power + ")";
         }
     }
 

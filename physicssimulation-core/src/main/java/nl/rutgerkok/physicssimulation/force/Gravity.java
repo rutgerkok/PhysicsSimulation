@@ -14,8 +14,11 @@ final class Gravity implements Force {
     @Override
     public Vector calculate(PhysicalObject object, PhysicsWorld world) {
         // F = m g = g m = g / (1/m)
-        Vector zero = object.getVelocity().multiply(0);
-        return zero.withCoord(1, -9.81 / object.invertedMass);
+        if (object.invertedMass == 0) {
+            // Static objects don't fall
+            return world.getZeroVector();
+        }
+        return world.getZeroVector().withCoord(1, -9.81 / object.invertedMass);
     }
 
     @Override

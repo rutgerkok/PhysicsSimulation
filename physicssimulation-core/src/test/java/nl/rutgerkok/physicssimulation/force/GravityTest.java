@@ -52,4 +52,17 @@ public class GravityTest {
         assertEquals(0, force.getCoord(2), 0.00001);
         assertTrue(force instanceof Vector3);
     }
+
+    @Test
+    public void testInfiniteMassHasNoGravity() {
+        PhysicalObject object = obj(sphere(vec3(0, 0, 0), 5), vec3(0, 0, 0), Material.STATIC);
+        PhysicsWorld world = WorldBuilder.newWorld().withObject(object).create();
+
+        Vector force = Forces.GRAVITY.calculate(object, world);
+
+        // infinite mass - object won't fall
+        assertEquals(0, force.getCoord(0), 0.01);
+        assertEquals(0, force.getCoord(1), 0.01);
+        assertEquals(0, force.getCoord(2), 0.01);
+    }
 }

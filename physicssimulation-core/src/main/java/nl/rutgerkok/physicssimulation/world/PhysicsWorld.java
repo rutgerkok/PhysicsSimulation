@@ -1,12 +1,11 @@
 package nl.rutgerkok.physicssimulation.world;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
 import nl.rutgerkok.physicssimulation.paint.Drawable;
 import nl.rutgerkok.physicssimulation.vector.Vector;
@@ -24,11 +23,13 @@ public final class PhysicsWorld implements Drawable, Iterable<PhysicalObject> {
     private final List<PhysicalObject> objects;
     private final List<Supervisor> supervisors;
     final Force force;
+    final Vector zero;
 
-    PhysicsWorld(Collection<PhysicalObject> objects, Collection<Supervisor> supervisors, Force force) {
-        this.objects = Collections.unmodifiableList(new ArrayList<>(objects));
-        this.supervisors = Collections.unmodifiableList(new ArrayList<>(supervisors));
-        this.force = Objects.requireNonNull(force);
+    PhysicsWorld(WorldBuilder worldBuilder) {
+        this.zero = Objects.requireNonNull(worldBuilder.zero, "zero");
+        this.objects = Collections.unmodifiableList(worldBuilder.objects);
+        this.supervisors = Collections.unmodifiableList(worldBuilder.supervisors);
+        this.force = Forces.combine(worldBuilder.forces);
     }
 
     /**
@@ -65,6 +66,15 @@ public final class PhysicsWorld implements Drawable, Iterable<PhysicalObject> {
      */
     Vector calculateForce(PhysicalObject object) {
         return this.force.calculate(object, this);
+    }
+
+    /**
+     * Gets a zero vector in the correct dimension for this world.
+     * 
+     * @return A zero vector.
+     */
+    public Vector getZeroVector() {
+        return zero;
     }
 
     @Override

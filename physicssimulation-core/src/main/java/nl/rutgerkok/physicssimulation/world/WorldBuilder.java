@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.shape.Sphere;
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
+
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Class for creating worlds. An example is shown below:
@@ -40,12 +41,28 @@ public final class WorldBuilder {
         return new WorldBuilder();
     }
 
-    private final List<PhysicalObject> objects = new ArrayList<>();
-    private final List<Force> forces = new ArrayList<>();
-    private final List<Supervisor> supervisors = new ArrayList<>();
+    final List<PhysicalObject> objects = new ArrayList<>();
+    final List<Force> forces = new ArrayList<>();
+    final List<Supervisor> supervisors = new ArrayList<>();
+    @Nullable
+    Vector zero;
 
     private WorldBuilder() {
 
+    }
+
+    private void checkDimension(PhysicalObject object) {
+        Vector zero = this.zero;
+        if (zero == null) {
+            this.zero = object.getVelocity().multiply(0);
+        } else {
+            if (zero.getDimension() != object.getVelocity().getDimension()) {
+                throw new IllegalArgumentException("Cannot add objects of"
+                        + " different dimensions to a single world (existing"
+                        + " objects: " + this.objects + ", new object: "
+                        + object + ")");
+            }
+        }
     }
 
     /**
@@ -54,7 +71,7 @@ public final class WorldBuilder {
      * @return The world.
      */
     public PhysicsWorld create() {
-        return new PhysicsWorld(this.objects, this.supervisors, Forces.combine(this.forces));
+        return new PhysicsWorld(this);
     }
 
     /**
@@ -77,7 +94,10 @@ public final class WorldBuilder {
      * @return The world builder, for chaining.
      */
     public WorldBuilder withObject(PhysicalObject object) {
-        this.objects.add(Objects.requireNonNull(object));
+        Objects.requireNonNull(object, "object");
+        checkDimension(object);
+
+        this.objects.add(object);
         return this;
     }
 

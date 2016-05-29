@@ -30,8 +30,6 @@ public class ForcesTest {
         assertEquals(vec2(5, -1), resultant.calculate(object, world));
     }
 
-    @SuppressWarnings("unused")
-    // ^ We don't use the result, as new Forces should throw an exception
     @Test(expected = RuntimeException.class)
     public void testInstance() {
         new Forces();

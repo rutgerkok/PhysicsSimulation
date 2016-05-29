@@ -15,7 +15,7 @@
  * </p>
  *
  * <ul>
- * <li><a href="world/PhysicsWorld.html">Learn how to create a world</a></li>
+ * <li><a href="world/PhysicsSimulation.html">Learn how to create a simulation</a></li>
  * <li><a href="world/PhysicalObject.html">More about objects</a></li>
  * <li><a href="world/Supervisor.html">More about supervisors</a></li>
  * <li><a href="world/Force.html">More about forces</a></li>

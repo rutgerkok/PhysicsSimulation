@@ -18,7 +18,6 @@ public class MoreMathTest {
         MoreMath.clamp(5, 4, 4.5);
     }
 
-    @SuppressWarnings("unused")
     @Test(expected = RuntimeException.class)
     public void testNoInstances() {
         new MoreMath();

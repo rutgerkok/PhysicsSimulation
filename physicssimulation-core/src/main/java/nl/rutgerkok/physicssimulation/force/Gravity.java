@@ -2,8 +2,8 @@ package nl.rutgerkok.physicssimulation.force;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.world.Force;
+import nl.rutgerkok.physicssimulation.world.WorldView;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 /**
  * Represents gravity in the negative y direction.
@@ -12,7 +12,7 @@ import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 final class Gravity implements Force {
 
     @Override
-    public Vector calculate(PhysicalObject object, PhysicsWorld world) {
+    public Vector calculate(PhysicalObject object, WorldView world) {
         // F = m g = g m = g / (1/m)
         if (object.invertedMass == 0) {
             // Static objects don't fall

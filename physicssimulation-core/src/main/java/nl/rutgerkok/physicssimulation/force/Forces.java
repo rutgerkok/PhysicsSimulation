@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.world.Force;
-import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 /**
  * Holds all the built-in forces.
@@ -47,18 +45,14 @@ public final class Forces {
      */
     public static Force combine(Collection<Force> forces) {
         Force[] immutableForces = forces.toArray(new Force[0]);
-        return new Force() {
+        return (object, world) -> {
+            Vector result = world.getZeroVector();
 
-            @Override
-            public Vector calculate(PhysicalObject object, PhysicsWorld world) {
-                Vector result = world.getZeroVector();
-
-                for (Force force : immutableForces) {
-                    result = result.plus(force.calculate(object, world));
-                }
-
-                return result;
+            for (Force force : immutableForces) {
+                result = result.plus(force.calculate(object, world));
             }
+
+            return result;
         };
     }
 

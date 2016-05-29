@@ -12,18 +12,18 @@ import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.vector.Vector2;
 import nl.rutgerkok.physicssimulation.vector.Vector3;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 import nl.rutgerkok.physicssimulation.world.WorldBuilder;
+import nl.rutgerkok.physicssimulation.world.WorldView;
 
 import org.junit.Test;
 
 public class IsotropicInteractionTest {
 
-    private PhysicalObject setupObject(Vector2 position) {
+    private static PhysicalObject setupObject(Vector2 position) {
         return obj(circle(position, 1), vec2(0, 0), Material.BOUNCYBALL);
     }
 
-    private PhysicalObject setupObject(Vector3 position) {
+    private static PhysicalObject setupObject(Vector3 position) {
         return obj(sphere(position, 5), vec3(0, 0, 0), Material.BOUNCYBALL);
     }
 
@@ -31,7 +31,7 @@ public class IsotropicInteractionTest {
     public void testAttraction2D() {
         PhysicalObject obj1 = setupObject(vec2(0, -2));
         PhysicalObject obj2 = setupObject(vec2(0, 2));
-        PhysicsWorld world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create();
+        WorldView world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create().getWorld();
 
         Vector force = Forces.attraction(200, 2).calculate(obj1, world);
 
@@ -59,7 +59,7 @@ public class IsotropicInteractionTest {
     public void testNoForceWhenAtSamePosition() {
         PhysicalObject obj1 = setupObject(vec2(0, 0));
         PhysicalObject obj2 = setupObject(vec2(0, 0));
-        PhysicsWorld world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create();
+        WorldView world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create().getWorld();
 
         Vector force = Forces.attraction(200, 2).calculate(obj1, world);
 
@@ -71,7 +71,7 @@ public class IsotropicInteractionTest {
     public void testRepulsion3D() {
         PhysicalObject obj1 = setupObject(vec3(-2, 0, 0));
         PhysicalObject obj2 = setupObject(vec3(2, 0, 0));
-        PhysicsWorld world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create();
+        WorldView world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create().getWorld();
 
         Vector force = Forces.repulsion(200, 2).calculate(obj1, world);
 

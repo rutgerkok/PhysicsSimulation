@@ -2,8 +2,8 @@ package nl.rutgerkok.physicssimulation.force;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.world.Force;
+import nl.rutgerkok.physicssimulation.world.WorldView;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 
 /**
  * A simple repulsive force, taking into account the distance between objects.
@@ -36,7 +36,7 @@ final class IsotropicInteraction implements Force {
     }
 
     @Override
-    public Vector calculate(PhysicalObject object, PhysicsWorld world) {
+    public Vector calculate(PhysicalObject object, WorldView world) {
         Vector resultant = world.getZeroVector();
         for (PhysicalObject otherObject : world) {
             if (otherObject.equals(object)) {

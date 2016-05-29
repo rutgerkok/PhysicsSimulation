@@ -26,7 +26,7 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 final class CollisionChecker {
 
-    private @Nullable Collision checkCollision(PhysicalObject a, PhysicalObject b) {
+    private @Nullable static Collision checkCollision(PhysicalObject a, PhysicalObject b) {
         Shape shapeA = a.getShape();
         Shape shapeB = b.getShape();
 
@@ -55,7 +55,8 @@ final class CollisionChecker {
         return null;
     }
 
-    private @Nullable Collision checkCollisionBetweenRectangleAndCircle(PhysicalObject objA, PhysicalObject objB) {
+    private @Nullable static Collision checkCollisionBetweenRectangleAndCircle(PhysicalObject objA,
+            PhysicalObject objB) {
         // Setup a couple pointers to each object
         Rectangle rectangle = (Rectangle) objA.getShape();
         Circle circle = (Circle) objB.getShape();
@@ -125,7 +126,7 @@ final class CollisionChecker {
         return new Collision(objA, objB, penetration, normal.normalized());
     }
 
-    private @Nullable Collision checkCollisionBetweenRectangles(PhysicalObject objA, PhysicalObject objB) {
+    private @Nullable static Collision checkCollisionBetweenRectangles(PhysicalObject objA, PhysicalObject objB) {
         Rectangle a = (Rectangle) objA.getShape();
         Rectangle b = (Rectangle) objB.getShape();
 
@@ -178,7 +179,7 @@ final class CollisionChecker {
         return new Collision(objA, objB, penetration, normal);
     }
 
-    private @Nullable Collision checkCollisionBetweenSphericals(PhysicalObject objA, PhysicalObject objB) {
+    private @Nullable static Collision checkCollisionBetweenSphericals(PhysicalObject objA, PhysicalObject objB) {
         Spherical a = (Spherical) objA.getShape();
         Spherical b = (Spherical) objB.getShape();
 
@@ -218,7 +219,7 @@ final class CollisionChecker {
      *            The objects.
      * @return All collisions.
      */
-    Set<Collision> getCollisions(Iterable<PhysicalObject> objects) {
+    static Set<Collision> getCollisions(Iterable<PhysicalObject> objects) {
         Set<Collision> collisions = new HashSet<>();
         for (PhysicalObject oneObject : objects) {
             for (PhysicalObject otherObject : objects) {

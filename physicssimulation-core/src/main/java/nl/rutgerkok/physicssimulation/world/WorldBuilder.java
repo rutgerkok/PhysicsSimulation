@@ -14,7 +14,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * Class for creating worlds. An example is shown below:
  *
  * <pre>
- * PhysicsWorld world = WorldBuilder.newWorld()
+ * PhysicsSimulation simulation = WorldBuilder.newWorld()
  *         .withObject({@link PhysicalObject obj}({@link Sphere#sphere(Vector3, double) sphere}({@link Vector#vec3 vec3}(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL))
  *         .withObject(obj(sphere(vec3(0, 0, 10), 2), vec3(0, 2, -6), Material.METAL))
  *         .withObject(obj(sphere(vec3(0, 20, 0), 3), vec3(0, -5, 0), Material.METAL))
@@ -70,8 +70,8 @@ public final class WorldBuilder {
      *
      * @return The world.
      */
-    public PhysicsWorld create() {
-        return new PhysicsWorld(this);
+    public PhysicsSimulation create() {
+        return new PhysicsSimulation(this);
     }
 
     @Override

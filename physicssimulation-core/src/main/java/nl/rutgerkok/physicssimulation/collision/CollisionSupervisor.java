@@ -2,22 +2,19 @@ package nl.rutgerkok.physicssimulation.collision;
 
 import nl.rutgerkok.physicssimulation.vector.Vector;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
+import nl.rutgerkok.physicssimulation.world.PhysicsSimulation;
 import nl.rutgerkok.physicssimulation.world.Supervisor;
 
 public final class CollisionSupervisor implements Supervisor {
 
-    private CollisionChecker collisionChecker = new CollisionChecker();
-
     @Override
-    public void check(PhysicsWorld world) {
-        collisionChecker.getCollisions(world).forEach(this::resolveCollision);
+    public void check(PhysicsSimulation world) {
+        CollisionChecker.getCollisions(world).forEach(this::resolveCollision);
     }
 
     private void resolveCollision(Collision collision) {
         PhysicalObject a = collision.getOneObject();
         PhysicalObject b = collision.getOtherObject();
-        System.out.println("Resolving for " + (1 / a.invertedMass) + " vs " + (1 / b.invertedMass));
 
         // Calculate relative velocity
         Vector velocityDifference = b.getVelocity().minus(a.getVelocity());

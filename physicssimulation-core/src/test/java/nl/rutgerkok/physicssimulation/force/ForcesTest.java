@@ -10,8 +10,8 @@ import java.util.Arrays;
 import nl.rutgerkok.physicssimulation.shape.Material;
 import nl.rutgerkok.physicssimulation.world.Force;
 import nl.rutgerkok.physicssimulation.world.PhysicalObject;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
 import nl.rutgerkok.physicssimulation.world.WorldBuilder;
+import nl.rutgerkok.physicssimulation.world.WorldView;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class ForcesTest {
     @Test
     public void testCombination() {
         PhysicalObject object = obj(circle(vec2(0, 0), 5), vec2(0, 0), Material.BOUNCYBALL);
-        PhysicsWorld world = WorldBuilder.newWorld().withObject(object).create();
+        WorldView world = WorldBuilder.newWorld().withObject(object).create().getWorld();
         Force force1 = (par1, par2) -> vec2(1, 2);
         Force force2 = (par1, par2) -> vec2(4, -3);
 
@@ -30,6 +30,8 @@ public class ForcesTest {
         assertEquals(vec2(5, -1), resultant.calculate(object, world));
     }
 
+    @SuppressWarnings("unused")
+    // ^ We don't use the result, as new Forces should throw an exception
     @Test(expected = RuntimeException.class)
     public void testInstance() {
         new Forces();
@@ -44,7 +46,7 @@ public class ForcesTest {
 
         PhysicalObject obj1 = obj(circle(vec2(10, 0), 5), vec2(0, 0), Material.BOUNCYBALL);
         PhysicalObject obj2 = obj(circle(vec2(0, 0), 5), vec2(0, 0), Material.BOUNCYBALL);
-        PhysicsWorld world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create();
+        WorldView world = WorldBuilder.newWorld().withObject(obj1).withObject(obj2).create().getWorld();
 
         // Assert replicated force and Lennard-Jones result in the same force
         assertEquals(compareWith.calculate(obj1, world), lennardJones.calculate(obj1, world));

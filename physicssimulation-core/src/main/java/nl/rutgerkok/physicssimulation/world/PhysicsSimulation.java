@@ -3,7 +3,6 @@ package nl.rutgerkok.physicssimulation.world;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.paint.Canvas;
@@ -11,23 +10,25 @@ import nl.rutgerkok.physicssimulation.paint.Drawable;
 import nl.rutgerkok.physicssimulation.vector.Vector;
 
 /**
- * Represents a physics world.
+ * Represents a physics simulation.
  *
  * <p>
- * To create a new world, use {@link WorldBuilder}. To actually simulate
+ * To create a new simulation, use {@link WorldBuilder}. To actually simulate
  * something, repeatedly call the {@link #advance(double)} method.
  * </p>
  */
-public final class PhysicsWorld implements Drawable, Iterable<PhysicalObject> {
+public final class PhysicsSimulation implements Drawable, Iterable<PhysicalObject> {
 
-    private final List<PhysicalObject> objects;
+    private final WorldView world;
     private final List<Supervisor> supervisors;
     final Force force;
-    final Vector zero;
 
-    PhysicsWorld(WorldBuilder worldBuilder) {
-        this.zero = Objects.requireNonNull(worldBuilder.zero, "zero");
-        this.objects = Collections.unmodifiableList(worldBuilder.objects);
+    PhysicsSimulation(WorldBuilder worldBuilder) {
+        Vector zero = worldBuilder.zero;
+        if (zero == null) {
+            throw new IllegalArgumentException("WorldBuilder " + worldBuilder + " has no objects");
+        }
+        this.world = new MultipleMaterialWorldView(zero, worldBuilder.objects);
         this.supervisors = Collections.unmodifiableList(worldBuilder.supervisors);
         this.force = Forces.combine(worldBuilder.forces);
     }
@@ -53,7 +54,7 @@ public final class PhysicsWorld implements Drawable, Iterable<PhysicalObject> {
      *            The time step.
      */
     public void advance(double deltaTime) {
-        objects.forEach(object -> object.advance(deltaTime, this));
+        world.forEach(object -> object.advance(deltaTime, this));
         supervisors.forEach(supervisor -> supervisor.check(this));
     }
 
@@ -65,25 +66,25 @@ public final class PhysicsWorld implements Drawable, Iterable<PhysicalObject> {
      * @return The force.
      */
     Vector calculateForce(PhysicalObject object) {
-        return this.force.calculate(object, this);
+        return this.force.calculate(object, world);
     }
 
     /**
-     * Gets a zero vector in the correct dimension for this world.
+     * Gets the world of this simulation.
      * 
-     * @return A zero vector.
+     * @return The world.
      */
-    public Vector getZeroVector() {
-        return zero;
+    public WorldView getWorld() {
+        return world;
     }
 
     @Override
     public Iterator<PhysicalObject> iterator() {
-        return objects.iterator();
+        return world.iterator();
     }
 
     @Override
     public void toDrawing(Canvas canvas) {
-        objects.forEach(object -> object.getShape().toDrawing(canvas));
+        world.forEach(object -> object.getShape().toDrawing(canvas));
     }
 }

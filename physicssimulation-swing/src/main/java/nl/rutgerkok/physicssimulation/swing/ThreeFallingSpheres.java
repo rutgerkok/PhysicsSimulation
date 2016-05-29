@@ -9,10 +9,10 @@ import java.util.function.Supplier;
 import nl.rutgerkok.physicssimulation.collision.CollisionSupervisor;
 import nl.rutgerkok.physicssimulation.force.Forces;
 import nl.rutgerkok.physicssimulation.shape.Material;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
+import nl.rutgerkok.physicssimulation.world.PhysicsSimulation;
 import nl.rutgerkok.physicssimulation.world.WorldBuilder;
 
-public class ThreeFallingSpheres implements Supplier<PhysicsWorld> {
+public class ThreeFallingSpheres implements Supplier<PhysicsSimulation> {
 
     private final WorldBuilder threeFallingSpheres = WorldBuilder.newWorld()
             .withObject(obj(sphere(vec3(0, 1, -10), 2), vec3(0, 0, 6), Material.METAL))
@@ -22,7 +22,7 @@ public class ThreeFallingSpheres implements Supplier<PhysicsWorld> {
             .withForce(Forces.GRAVITY);
 
     @Override
-    public PhysicsWorld get() {
+    public PhysicsSimulation get() {
         return threeFallingSpheres.create();
     }
 

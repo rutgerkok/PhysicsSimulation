@@ -8,7 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import nl.rutgerkok.physicssimulation.swing.view.MainWindow;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
+import nl.rutgerkok.physicssimulation.world.PhysicsSimulation;
 
 public final class SwingStartup {
 
@@ -22,8 +22,8 @@ public final class SwingStartup {
             // Ignore, use default look and feel
         }
 
-        List<Supplier<PhysicsWorld>> worldChoices = Arrays.asList(new CirclesAtInterface(), new ThreeFallingSpheres());
-        PhysicsWorld world = worldChoices.get(0).get();
+        List<Supplier<PhysicsSimulation>> worldChoices = Arrays.asList(new CirclesAtInterface(), new ThreeFallingSpheres());
+        PhysicsSimulation world = worldChoices.get(0).get();
 
         new MainWindow(world, worldChoices);
     }

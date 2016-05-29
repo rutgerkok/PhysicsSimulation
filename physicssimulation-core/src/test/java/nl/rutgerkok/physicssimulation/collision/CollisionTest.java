@@ -30,7 +30,7 @@ public class CollisionTest {
 
         // Check for collisions
         List<PhysicalObject> objects = asList(rectangle, circle, somewhereElse);
-        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        Set<Collision> collisions = CollisionChecker.getCollisions(objects);
         assertEquals(1, collisions.size());
         assertTrue(collisions.contains(new Collision(rectangle, circle, 1, zero)));
     }
@@ -42,7 +42,7 @@ public class CollisionTest {
         List<PhysicalObject> objects = asList(
                 obj(rectangle(vec2(-1, -1), vec2(1, 1)), zero, Material.ROCK),
                 obj(circle(zero, 2), zero, Material.ROCK));
-        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        Set<Collision> collisions = CollisionChecker.getCollisions(objects);
 
         assertEquals(1, collisions.size());
     }
@@ -57,7 +57,7 @@ public class CollisionTest {
 
         // Check for collisions
         List<PhysicalObject> objects = asList(left, right, center);
-        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        Set<Collision> collisions = CollisionChecker.getCollisions(objects);
 
         assertEquals(2, collisions.size());
         assertTrue(collisions.contains(new Collision(left, center, 1, zero)));
@@ -77,7 +77,7 @@ public class CollisionTest {
 
         // Check for collisions
         List<PhysicalObject> objects = asList(left, right, boxOnTop);
-        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        Set<Collision> collisions = CollisionChecker.getCollisions(objects);
 
         assertEquals(2, collisions.size());
         assertTrue(collisions.contains(new Collision(left, boxOnTop, 1, zero)));
@@ -91,7 +91,7 @@ public class CollisionTest {
         List<PhysicalObject> objects = asList(
                 obj(circle(zero, 2), zero, Material.ROCK),
                 obj(circle(zero, 2), zero, Material.ROCK));
-        Set<Collision> collisions = new CollisionChecker().getCollisions(objects);
+        Set<Collision> collisions = CollisionChecker.getCollisions(objects);
 
         assertEquals(1, collisions.size());
     }

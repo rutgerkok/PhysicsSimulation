@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import nl.rutgerkok.physicssimulation.swing.SwingStartup;
-import nl.rutgerkok.physicssimulation.world.PhysicsWorld;
+import nl.rutgerkok.physicssimulation.world.PhysicsSimulation;
 
 public final class MainWindow extends JFrame {
 
     private static final long serialVersionUID = 7577238832639150286L;
 
-    public MainWindow(PhysicsWorld world, List<Supplier<PhysicsWorld>> worldChoices) {
+    public MainWindow(PhysicsSimulation world, List<Supplier<PhysicsSimulation>> worldChoices) {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("PhysicsSimulation");

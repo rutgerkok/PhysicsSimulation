@@ -111,7 +111,7 @@ public final class PhysicalObject {
      * @param world
      *            The world we are in. Only used for calculating forces.
      */
-    void advance(double deltaTime, PhysicsWorld world) {
+    void advance(double deltaTime, PhysicsSimulation world) {
         // Symplectic Euler - assumes constant force over deltaTime
         Vector force = world.calculateForce(this);
         Vector acceleration = force.multiply(invertedMass);

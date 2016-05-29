@@ -12,7 +12,7 @@ public interface Supervisor
      * Checks the world for impossible situations, like overlapping objects.
      * @param world The world.
      */
-    void check(PhysicsWorld world);
+    void check(PhysicsSimulation world);
 
     /**
      * Changes the velocity of the given object.
